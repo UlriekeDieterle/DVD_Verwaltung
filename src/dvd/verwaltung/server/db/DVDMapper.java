@@ -9,8 +9,7 @@ import java.util.Vector;
 import dvd.verwaltung.server.db.DBConnection;
 
 import dvd.verwaltung.shared.bo.DVD;
-import notenberechnung.shared.bo.Student;
-
+import dvd.verwaltung.client.*;
 public class DVDMapper {
 
 	public static DVDMapper dvdMapper = null;
@@ -25,6 +24,8 @@ public class DVDMapper {
 		
 		return dvdMapper;
 	}
+	
+	/*		Methoden für verschiedene Abfragezwecke				*/
 	
 	public DVD findByKey(int id) throws ClassNotFoundException {
 		Connection con = DBConnection.connection();
@@ -384,7 +385,34 @@ public class DVDMapper {
 	}
 	
 	
-	/*							BREAK													*/
+	/*		Methoden für insert, update und delete						*/
 	
+	
+	public DVD insert (DVD dvd){
+		Connection con = DBConnection.connection();
+		
+		try{
+			Statement smt = con.createStatement();
+								
+				// nur Strings mit '' einfügen, Rest ohne!
+				//System.out.println(test);
+				smt.executeUpdate("INSERT INTO dvd (DVD_ID, Vorname, Nachname, EMail, Geburtsdatum, HdM_Kuerzel, Studiengang) "
+						+ "VALUES (" 
+						+ s.getId() + ",'" 
+						+ s.getFirstName() + "', '" 
+						+ s.getLastName() + "', '" 
+						+ s.getEmail() + "', "
+						+ s.getBirthday() + ", '" 
+						+ s.getKuerzel() + "', '" 
+						+ s.getStudies() + "')");
+				
+				dvd.verwaltung.client.ClientsideSettings.getLogger().info("DVD wurde in DB geschrieben");
+		}
+		catch (SQLException e) {
+		      e.printStackTrace();
+	}
+		
+		return s;
+	}
 	
 }
