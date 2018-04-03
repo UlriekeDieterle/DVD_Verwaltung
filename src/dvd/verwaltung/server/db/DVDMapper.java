@@ -1,16 +1,8 @@
 package dvd.verwaltung.server.db;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.Vector;
-
-import dvd.verwaltung.server.db.DBConnection;
-
 import dvd.verwaltung.shared.bo.DVD;
-import dvd.verwaltung.client.*;
-
 
 public class DVDMapper {
 
@@ -73,7 +65,6 @@ public class DVDMapper {
 			
 			while (rs.next()) {
 				DVD dvd = new DVD();
-				dvd.setId(rs.getInt("Matrikelnummer"));
 				dvd.setId(rs.getInt("DVD_ID"));
 	            dvd.setTitel(rs.getString("Titel"));
 	            dvd.setFSK(rs.getInt("FSK"));
@@ -111,7 +102,6 @@ public class DVDMapper {
 						
 			while (rs.next()){
 				DVD dvd = new DVD();
-				dvd.setId(rs.getInt("Matrikelnummer"));
 				dvd.setId(rs.getInt("DVD_ID"));
 	            dvd.setTitel(rs.getString("Titel"));
 	            dvd.setFSK(rs.getInt("FSK"));
@@ -147,7 +137,6 @@ public class DVDMapper {
 						
 			while (rs.next()){
 				DVD dvd = new DVD();
-				dvd.setId(rs.getInt("Matrikelnummer"));
 				dvd.setId(rs.getInt("DVD_ID"));
 	            dvd.setTitel(rs.getString("Titel"));
 	            dvd.setFSK(rs.getInt("FSK"));
@@ -183,7 +172,6 @@ public class DVDMapper {
 						
 			while (rs.next()){
 				DVD dvd = new DVD();
-				dvd.setId(rs.getInt("Matrikelnummer"));
 				dvd.setId(rs.getInt("DVD_ID"));
 	            dvd.setTitel(rs.getString("Titel"));
 	            dvd.setFSK(rs.getInt("FSK"));
@@ -219,7 +207,6 @@ public class DVDMapper {
 						
 			while (rs.next()){
 				DVD dvd = new DVD();
-				dvd.setId(rs.getInt("Matrikelnummer"));
 				dvd.setId(rs.getInt("DVD_ID"));
 	            dvd.setTitel(rs.getString("Titel"));
 	            dvd.setFSK(rs.getInt("FSK"));
@@ -255,7 +242,6 @@ public class DVDMapper {
 						
 			while (rs.next()){
 				DVD dvd = new DVD();
-				dvd.setId(rs.getInt("Matrikelnummer"));
 				dvd.setId(rs.getInt("DVD_ID"));
 	            dvd.setTitel(rs.getString("Titel"));
 	            dvd.setFSK(rs.getInt("FSK"));
@@ -291,7 +277,6 @@ public class DVDMapper {
 						
 			while (rs.next()){
 				DVD dvd = new DVD();
-				dvd.setId(rs.getInt("Matrikelnummer"));
 				dvd.setId(rs.getInt("DVD_ID"));
 	            dvd.setTitel(rs.getString("Titel"));
 	            dvd.setFSK(rs.getInt("FSK"));
@@ -327,7 +312,6 @@ public class DVDMapper {
 						
 			while (rs.next()){
 				DVD dvd = new DVD();
-				dvd.setId(rs.getInt("Matrikelnummer"));
 				dvd.setId(rs.getInt("DVD_ID"));
 	            dvd.setTitel(rs.getString("Titel"));
 	            dvd.setFSK(rs.getInt("FSK"));
@@ -363,7 +347,6 @@ public class DVDMapper {
 						
 			while (rs.next()){
 				DVD dvd = new DVD();
-				dvd.setId(rs.getInt("Matrikelnummer"));
 				dvd.setId(rs.getInt("DVD_ID"));
 	            dvd.setTitel(rs.getString("Titel"));
 	            dvd.setFSK(rs.getInt("FSK"));
@@ -444,7 +427,7 @@ public class DVDMapper {
 				+ dvd.getFSK() + "', " + "Produktionsjahr= '" + dvd.getProduktionsjahr() + "', " + "Erscheinungsjahr= " 
 				+ dvd.getErscheinungsjahr() + ", " + "Beschreibung= '" + dvd.getBeschreibung() + "', " + "Filmlänge= '" 
 				+ dvd.getFilmlaenge() + "' "  + "Stichwort= '" + dvd.getStichwort() + "Anzahl_Disc= '" + dvd.getAnzahlDisc()
-				+ "Art_DVD= '" + dvd.getArtDVD() + "Serie_Film= '" + dvd.getSerieFilm()	+ " WHERE DVD_ID = " + dvd.getId());
+				+ "Art_DVD= '" + dvd.getArtDVD() + "Serie_Film= '" + dvd.getSerieFilm()	+ "' WHERE DVD_ID = " + dvd.getId());
 		
 	}
 		
@@ -454,4 +437,21 @@ public class DVDMapper {
 		
 		return dvd;
 	}
+	
+	public void delete (DVD dvd){
+		Connection con = DBConnection.connection();
+		
+		try {
+			Statement stmt = con.createStatement();
+			stmt.executeUpdate("DELETE FROM DVD " + "WHERE DVD_ID = " + dvd.getId());
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/* hier wird Modulbelegung von Student gemacht
+		public Vector<Modulbelegung> getModulbelegungOfStudent (Student s) {
+			return ModulBelegungsMapper.modulbelegungsMapper().findByStudent(s);
+		}*/
 }
