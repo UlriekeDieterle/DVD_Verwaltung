@@ -396,17 +396,22 @@ public class DVDMapper {
 								
 				// nur Strings mit '' einfügen, Rest ohne!
 				//System.out.println(test);
-				smt.executeUpdate("INSERT INTO dvd (DVD_ID, Vorname, Nachname, EMail, Geburtsdatum, HdM_Kuerzel, Studiengang) "
+				smt.executeUpdate("INSERT INTO dvd (DVD_ID, Titel, FSK, Produktionsjahr, Erscheinungsjahr"
+					+ "Beschreibung, Filmlänge, Stichwort, Anzahl_Disc, Art_DVD, Serie_Film) "
 						+ "VALUES (" 
-						+ s.getId() + ",'" 
-						+ s.getFirstName() + "', '" 
-						+ s.getLastName() + "', '" 
-						+ s.getEmail() + "', "
-						+ s.getBirthday() + ", '" 
-						+ s.getKuerzel() + "', '" 
-						+ s.getStudies() + "')");
+						+ dvd.getId() + ",'" 
+						+ dvd.getTitel() + "', " 
+						+ dvd.getFSK() + ", " 
+						+ dvd.getProduktionsjahr() + ", "
+						+ dvd.getErscheinungsjahr() + ", '" 
+						+ dvd.getBeschreibung() + "', " 
+						+ dvd.getFilmlaenge() + ", '"
+						+ dvd.getStichwort() + "', "
+						+ dvd.getAnzahlDisc() + ", '"
+						+ dvd.getArtDVD() + "', '"
+						+ dvd.getSerieFilm() + "')");
 				
-				dvd.verwaltung.client.ClientsideSettings.getLogger().info("DVD wurde in DB geschrieben");
+				//dvd.verwaltung.client.ClientsideSettings.getLogger().info("DVD wurde in DB geschrieben");
 		}
 		catch (SQLException e) {
 		      e.printStackTrace();

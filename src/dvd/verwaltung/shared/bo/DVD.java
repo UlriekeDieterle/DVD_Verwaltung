@@ -57,6 +57,60 @@ public class DVD {
 	public void setSerieFilm(String sf) {
 		this.serieFilm = sf;
 	}
+
+	public int getId() {
+		return this.id;
+	}
+
+	public String getTitel() {
+		return this.titel;
+	}
+
+	public int getFSK() {
+		return this.fsk;
+	}
+
+	public int getProduktionsjahr() {
+		return this.prodjahr;
+	}
+
+	public int getErscheinungsjahr() {
+		return this.erschjahr;
+	}
+
+	public String getBeschreibung() {
+		return this.beschreibung;
+	}
+
+	public int getFilmlaenge() {
+		return this.filmlaenge;
+	}
+
+	public String getStichwort() {
+		return this.stichwort;
+	}
+
+	public int getAnzahlDisc() {
+		return this.anzahlDisc;
+	}
+
+	public String getArtDVD() {
+		return this.artDVD;
+	}
+
+	public String getSerieFilm() {
+		return this.serieFilm;
+	}
+	
+	@Override
+	public String toString() {
+	    return super.toString() + " " + this.id + " " + this.titel + " " + this.fsk + " " + this.prodjahr + " " + this.erschjahr
+	    		+ " " + this.beschreibung + " " + this.filmlaenge + " " + this.stichwort + " " + this.anzahlDisc + " " 
+	    		+ this.artDVD + " " + this.serieFilm;
+	  }
+
+	
+	
 	
 	
 	
