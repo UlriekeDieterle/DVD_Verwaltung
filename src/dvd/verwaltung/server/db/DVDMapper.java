@@ -10,6 +10,8 @@ import dvd.verwaltung.server.db.DBConnection;
 
 import dvd.verwaltung.shared.bo.DVD;
 import dvd.verwaltung.client.*;
+
+
 public class DVDMapper {
 
 	public static DVDMapper dvdMapper = null;
@@ -101,9 +103,9 @@ public class DVDMapper {
 		Vector<DVD> result = new Vector<DVD>();
 		
 		try {
-			Statement smt = con.createStatement();
+			Statement stmt = con.createStatement();
 			
-			ResultSet rs = smt.executeQuery("SELECT DVD_ID, Titel, FSK, Produktionsjahr, Erscheinungsjahr"
+			ResultSet rs = stmt.executeQuery("SELECT DVD_ID, Titel, FSK, Produktionsjahr, Erscheinungsjahr"
 					+ "Beschreibung, Filmlänge, Stichwort, Anzahl_Disc, Art_DVD, Serie_Film FROM dvd"
 					+ " WHERE FSK = " + fsk + " ORDER BY Titel");
 						
@@ -137,9 +139,9 @@ public class DVDMapper {
 		Vector<DVD> result = new Vector<DVD>();
 		
 		try {
-			Statement smt = con.createStatement();
+			Statement stmt = con.createStatement();
 			
-			ResultSet rs = smt.executeQuery("SELECT DVD_ID, Titel, FSK, Produktionsjahr, Erscheinungsjahr"
+			ResultSet rs = stmt.executeQuery("SELECT DVD_ID, Titel, FSK, Produktionsjahr, Erscheinungsjahr"
 					+ "Beschreibung, Filmlänge, Stichwort, Anzahl_Disc, Art_DVD, Serie_Film FROM dvd"
 					+ " WHERE Titel = " + titel + " ORDER BY Titel");
 						
@@ -173,9 +175,9 @@ public class DVDMapper {
 		Vector<DVD> result = new Vector<DVD>();
 		
 		try {
-			Statement smt = con.createStatement();
+			Statement stmt = con.createStatement();
 			
-			ResultSet rs = smt.executeQuery("SELECT DVD_ID, Titel, FSK, Produktionsjahr, Erscheinungsjahr"
+			ResultSet rs = stmt.executeQuery("SELECT DVD_ID, Titel, FSK, Produktionsjahr, Erscheinungsjahr"
 					+ "Beschreibung, Filmlänge, Stichwort, Anzahl_Disc, Art_DVD, Serie_Film FROM dvd"
 					+ " WHERE Filmlänge = " + laenge + " ORDER BY Titel");
 						
@@ -209,9 +211,9 @@ public class DVDMapper {
 		Vector<DVD> result = new Vector<DVD>();
 		
 		try {
-			Statement smt = con.createStatement();
+			Statement stmt = con.createStatement();
 			
-			ResultSet rs = smt.executeQuery("SELECT DVD_ID, Titel, FSK, Produktionsjahr, Erscheinungsjahr"
+			ResultSet rs = stmt.executeQuery("SELECT DVD_ID, Titel, FSK, Produktionsjahr, Erscheinungsjahr"
 					+ "Beschreibung, Filmlänge, Stichwort, Anzahl_Disc, Art_DVD, Serie_Film FROM dvd"
 					+ " WHERE Stichwort = " + stichwort + " ORDER BY Titel");
 						
@@ -245,9 +247,9 @@ public class DVDMapper {
 		Vector<DVD> result = new Vector<DVD>();
 		
 		try {
-			Statement smt = con.createStatement();
+			Statement stmt = con.createStatement();
 			
-			ResultSet rs = smt.executeQuery("SELECT DVD_ID, Titel, FSK, Produktionsjahr, Erscheinungsjahr"
+			ResultSet rs = stmt.executeQuery("SELECT DVD_ID, Titel, FSK, Produktionsjahr, Erscheinungsjahr"
 					+ "Beschreibung, Filmlänge, Stichwort, Anzahl_Disc, Art_DVD, Serie_Film FROM dvd"
 					+ " WHERE Art_DVD = " + art + " ORDER BY Titel");
 						
@@ -317,9 +319,9 @@ public class DVDMapper {
 		Vector<DVD> result = new Vector<DVD>();
 		
 		try {
-			Statement smt = con.createStatement();
+			Statement stmt = con.createStatement();
 			
-			ResultSet rs = smt.executeQuery("SELECT DVD_ID, Titel, FSK, Produktionsjahr, Erscheinungsjahr"
+			ResultSet rs = stmt.executeQuery("SELECT DVD_ID, Titel, FSK, Produktionsjahr, Erscheinungsjahr"
 					+ "Beschreibung, Filmlänge, Stichwort, Anzahl_Disc, Art_DVD, Serie_Film FROM dvd"
 					+ " WHERE Erscheinungsjahr = " + jahr + " ORDER BY Titel");
 						
@@ -353,9 +355,9 @@ public class DVDMapper {
 		Vector<DVD> result = new Vector<DVD>();
 		
 		try {
-			Statement smt = con.createStatement();
+			Statement stmt = con.createStatement();
 			
-			ResultSet rs = smt.executeQuery("SELECT DVD_ID, Titel, FSK, Produktionsjahr, Erscheinungsjahr"
+			ResultSet rs = stmt.executeQuery("SELECT DVD_ID, Titel, FSK, Produktionsjahr, Erscheinungsjahr"
 					+ "Beschreibung, Filmlänge, Stichwort, Anzahl_Disc, Art_DVD, Serie_Film FROM dvd"
 					+ " WHERE Produktionsjahr = " + jahr + " ORDER BY Titel");
 						
@@ -392,11 +394,21 @@ public class DVDMapper {
 		Connection con = DBConnection.connection();
 		
 		try{
-			Statement smt = con.createStatement();
+			Statement stmt = con.createStatement();
+			
+			ResultSet rs = stmt.executeQuery("SELECT MAX(DVD_ID) AS maxid "
+			          + "FROM dvd ");
 								
 				// nur Strings mit '' einfügen, Rest ohne!
 				//System.out.println(test);
-				smt.executeUpdate("INSERT INTO dvd (DVD_ID, Titel, FSK, Produktionsjahr, Erscheinungsjahr"
+			
+			if(rs.next()) {
+				
+				dvd.setId(rs.getInt("maxid") + 1);
+				
+				stmt = con.createStatement();
+				
+				stmt.executeUpdate("INSERT INTO dvd (DVD_ID, Titel, FSK, Produktionsjahr, Erscheinungsjahr"
 					+ "Beschreibung, Filmlänge, Stichwort, Anzahl_Disc, Art_DVD, Serie_Film) "
 						+ "VALUES (" 
 						+ dvd.getId() + ",'" 
@@ -412,12 +424,34 @@ public class DVDMapper {
 						+ dvd.getSerieFilm() + "')");
 				
 				//dvd.verwaltung.client.ClientsideSettings.getLogger().info("DVD wurde in DB geschrieben");
+				
+			}
 		}
 		catch (SQLException e) {
 		      e.printStackTrace();
 	}
 		
-		return s;
+		return dvd;
 	}
 	
+	
+	public DVD update (DVD dvd){
+		Connection con = DBConnection.connection();
+		
+		try {
+		Statement stmt = con.createStatement();
+		stmt.executeUpdate("UPDATE dvd SET " + "Titel= '" + dvd.getTitel() + "', " + "FSK= '" 
+				+ dvd.getFSK() + "', " + "Produktionsjahr= '" + dvd.getProduktionsjahr() + "', " + "Erscheinungsjahr= " 
+				+ dvd.getErscheinungsjahr() + ", " + "Beschreibung= '" + dvd.getBeschreibung() + "', " + "Filmlänge= '" 
+				+ dvd.getFilmlaenge() + "' "  + "Stichwort= '" + dvd.getStichwort() + "Anzahl_Disc= '" + dvd.getAnzahlDisc()
+				+ "Art_DVD= '" + dvd.getArtDVD() + "Serie_Film= '" + dvd.getSerieFilm()	+ " WHERE DVD_ID = " + dvd.getId());
+		
+	}
+		
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return dvd;
+	}
 }
