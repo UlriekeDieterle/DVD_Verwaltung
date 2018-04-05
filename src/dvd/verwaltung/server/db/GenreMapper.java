@@ -92,7 +92,7 @@ public class GenreMapper {
 		
 		try{
 			Statement stmt = con.createStatement();
-			stmt.executeUpdate("UPDATE genre SET " + "Genre = " + genre.getGenre() + " WHERE Genre_ID = " + genre.getId());
+			stmt.executeUpdate("UPDATE genre SET " + "Genre = '" + genre.getGenre() + "' WHERE Genre_ID = " + genre.getId());
 		} catch(SQLException e) {
 			e.printStackTrace();
 		}

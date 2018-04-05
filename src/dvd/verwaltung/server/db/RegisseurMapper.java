@@ -24,7 +24,7 @@ public class RegisseurMapper {
 		Connection con = DBConnection.connection();
 		try {
 			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT Regisseur_ID, Name FROM regisseur WHERE Regisseur_ID = " + id.getId());
+			ResultSet rs = stmt.executeQuery("SELECT Regisseur_ID, Name FROM regisseur WHERE Regisseur_ID = " + id);
 			
 			if(rs.next()) {
 				Regisseur r = new Regisseur();
@@ -37,6 +37,8 @@ public class RegisseurMapper {
 			e.printStackTrace();
 			return null;
 		}
+		
+		return null;
 	}
 	
 	public Vector<Regisseur> findAll() {
@@ -106,7 +108,7 @@ public class RegisseurMapper {
 		Connection con = DBConnection.connection();
 		try {
 			Statement stmt = con.createStatement();
-			stmt.executeUpdate("UPDATE regisseur SET " + "Regisseur_ID = '" + regisseur.getId() + "', Name = '" + regisseur.getRegisseur() + 
+			stmt.executeUpdate("UPDATE regisseur SET " + "Name = '" + regisseur.getRegisseur() + 
 					"' WHERE Regisseur_ID = " + regisseur.getId());
 		} catch(SQLException e) {
 			e.printStackTrace();

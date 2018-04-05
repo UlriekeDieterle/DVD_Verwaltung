@@ -443,7 +443,7 @@ public class DVDMapper {
 		
 		try {
 			Statement stmt = con.createStatement();
-			stmt.executeUpdate("DELETE FROM DVD " + "WHERE DVD_ID = " + dvd.getId());
+			stmt.executeUpdate("DELETE FROM dvd " + "WHERE DVD_ID = " + dvd.getId());
 		}
 		catch (SQLException e) {
 			e.printStackTrace();
