@@ -23,7 +23,7 @@ public class SchauspielerMapper {
 		Connection con = DBConnection.connection();
 		try{
 			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT Darsteller_ID, Vorname, Nachname, Geburtsjahr, Nationalität"
+			ResultSet rs = stmt.executeQuery("SELECT Darsteller_ID, Vorname, Nachname, Geburtsjahr, Nationalität "
 					+ "FROM darsteller WHERE Darsteller_ID = " + id + " ORDER BY Nachname");
 			
 			if(rs.next()) {
@@ -50,7 +50,7 @@ public class SchauspielerMapper {
 		
 		try{
 			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT Darsteller_ID, Vorname, Nachname, Geburtsjahr, Nationalität"
+			ResultSet rs = stmt.executeQuery("SELECT Darsteller_ID, Vorname, Nachname, Geburtsjahr, Nationalität "
 					+ "FROM darsteller ORDER BY Nachname");
 			
 			while (rs.next()) {
@@ -67,7 +67,7 @@ public class SchauspielerMapper {
 			e.printStackTrace();
 		}
 		
-		return null;
+		return result;
 	}
 	
 	public Vector<Schauspieler> findByNachname (String nachname) {
@@ -76,8 +76,8 @@ public class SchauspielerMapper {
 		
 		try {
 			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT Darsteller_ID, Vorname, Nachname, Geburtsjahr, Nationalität"
-					+ "FROM darsteller WHERE Nachname = " + nachname + "ORDER BY Nachname");
+			ResultSet rs = stmt.executeQuery("SELECT Darsteller_ID, Vorname, Nachname, Geburtsjahr, Nationalität "
+					+ "FROM darsteller WHERE Nachname = '" + nachname + "' ORDER BY Nachname");
 			
 			while (rs.next()) {
 				Schauspieler s = new Schauspieler();
@@ -101,8 +101,8 @@ public class SchauspielerMapper {
 		
 		try {
 			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT Darsteller_ID, Vorname, Nachname, Geburtsjahr, Nationalität"
-					+ "FROM darsteller WHERE Nationalität = " + nat + "ORDER BY Nachname");
+			ResultSet rs = stmt.executeQuery("SELECT Darsteller_ID, Vorname, Nachname, Geburtsjahr, Nationalität "
+					+ "FROM darsteller WHERE Nationalität = '" + nat + "' ORDER BY Nachname");
 			
 			while (rs.next()) {
 				Schauspieler s = new Schauspieler();
@@ -130,7 +130,7 @@ public class SchauspielerMapper {
 			if(rs.next()) {
 				s.setId(rs.getInt("maxid") + 1);
 				stmt = con.createStatement();
-				stmt.executeUpdate("INSERT INTO darsteller(Darsteller_ID, Vorname, Nachname, Geburtsjahr, Nationalität"
+				stmt.executeUpdate("INSERT INTO darsteller (Darsteller_ID, Vorname, Nachname, Geburtsjahr, Nationalität) "
 					+ "VALUES ("
 						+ s.getId() + ", '"
 						+ s.getVorname() + "', '"
@@ -149,8 +149,9 @@ public class SchauspielerMapper {
 		Connection con = DBConnection.connection();
 		try {
 			Statement stmt = con.createStatement();
-			stmt.executeUpdate("UPDATE darsteller SET " + "Vorname = '" + s.getVorname + "', Nachname = '" + s.getNachname()
-			+ "', Geburtsjahr = " + s.getGeburtsjahr() + ", Nationalität = '" + s.getNationalitaet() + "'");
+			stmt.executeUpdate("UPDATE darsteller SET " + "Vorname = '" + s.getVorname() + "', Nachname = '" + s.getNachname()
+			+ "', Geburtsjahr = " + s.getGeburtsjahr() + ", Nationalität = '" + s.getNationalitaet() + "' WHERE Darsteller_ID = " + s.getId());
+			
 		} catch(SQLException e) {
 			e.printStackTrace();
 		}
@@ -161,7 +162,7 @@ public class SchauspielerMapper {
 		Connection con = DBConnection.connection();
 		try {
 			Statement stmt = con.createStatement();
-			stmt.executeUpdate("DELETE FROM darsteller " + "WHERE Darsteller_ID = " + s.getId())
+			stmt.executeUpdate("DELETE FROM darsteller WHERE Darsteller_ID = " + s.getId());
 			
 		} catch (SQLException e) {
 			e.printStackTrace();

@@ -68,7 +68,7 @@ public class RegisseurMapper {
 		
 		try {
 			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT Regisseur_ID, Name FROM regisseur WHERE Name = " + name.getRegisseur());
+			ResultSet rs = stmt.executeQuery("SELECT Regisseur_ID, Name FROM regisseur WHERE Name = '" + name + "' ORDER BY Name");
 			
 			while (rs.next()) {
 				Regisseur r = new Regisseur();

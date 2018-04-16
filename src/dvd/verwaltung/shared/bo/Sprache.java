@@ -20,5 +20,10 @@ public class Sprache {
 	public String getSprache() {
 		return sprache;
 	}
+	
+	@Override
+	public String toString() {
+	    return super.toString() + " " + this.id + " " + this.sprache;
+	  }
 
 }

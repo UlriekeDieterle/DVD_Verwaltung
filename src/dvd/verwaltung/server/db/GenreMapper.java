@@ -26,7 +26,7 @@ public class GenreMapper {
 			Statement stmt = con.createStatement();
 			
 			ResultSet rs = stmt.executeQuery("SELECT Genre_ID, Genre FROM genre WHERE Genre_ID = " + id
-					+ "ORDER BY Genre");
+					+ " ORDER BY Genre");
 			
 			if (rs.next()) {
 				Genre genre = new Genre();
@@ -39,6 +39,8 @@ public class GenreMapper {
 			e.printStackTrace();
 			return null;
 		}
+		
+		return null;
 	}
 		
 	public Vector <Genre> findAll() {
@@ -59,7 +61,32 @@ public class GenreMapper {
 		} catch(SQLException e) {
 			e.printStackTrace();
 		}
+		
+		return result;
+	}
+	
+	public Vector<Genre> findByGenre (String genre) {
+		Connection con = DBConnection.connection();
+		Vector<Genre> result = new Vector<Genre>();
+		try {
+			Statement stmt = con.createStatement();
+			
+			ResultSet rs = stmt.executeQuery("SELECT Genre_ID, Genre FROM genre WHERE Genre = '" + genre
+					+ "' ORDER BY Genre");
+			
+			while (rs.next()) {
+				Genre g = new Genre();
+				g.setId(rs.getInt("Genre_ID"));
+				g.setGenre(rs.getString("Genre"));
+				
+				result.addElement(g);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
 			return null;
+		}
+		
+		return result;
 	}
 	
 	/*				Methoden für insert, update, delete				*/

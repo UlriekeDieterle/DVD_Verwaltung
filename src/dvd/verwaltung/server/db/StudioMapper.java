@@ -23,14 +23,16 @@ public class StudioMapper {
 		Connection con = DBConnection.connection();
 		try {
 			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT Studio_ID, Name, Sitz_Land"
-					+ " FROM produktionsstudio WHERE Studio_ID = " + id + "ORDER BY Name");
+			ResultSet rs = stmt.executeQuery("SELECT Studio_ID, Name, Sitz_Land "
+					+ "FROM produktionsstudio WHERE Studio_ID = " + id + " ORDER BY Name");
 			
 			if(rs.next()) {
 				Studio s = new Studio();
 				s.setId(rs.getInt("Studio_ID"));
-				s.setString(rs.getString("Name"));
-				s.setString(rs.getString("Sitz_Land"));
+				s.setName(rs.getString("Name"));
+				s.setSitz(rs.getString("Sitz_Land"));
+				
+				return s;
 			}
 		} catch(SQLException e) {
 			e.printStackTrace();
@@ -58,17 +60,17 @@ public class StudioMapper {
 		} catch(SQLException e) {
 			e.printStackTrace();
 		}
-		return null;
+		return result;
 	}
 	
 	public Vector<Studio> findByName(String name) {
-		Conncection con = DBConnection.connection();
+		Connection con = DBConnection.connection();
 		Vector<Studio> result = new Vector<Studio>();
 		
 		try {
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery("SELECT Studio_ID, Name, Sitz_Land FROM produktionsstudio"
-					+ " WHERE Name = " + name + " ORDER BY Name" );
+					+ " WHERE Name = '" + name + "' ORDER BY Name" );
 			
 			while (rs.next()) {
 				Studio s = new Studio();

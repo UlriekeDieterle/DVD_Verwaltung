@@ -15,6 +15,7 @@ public class SpracheMapper {
 		if(spracheMapper == null) {
 			spracheMapper = new SpracheMapper();
 		}
+		return spracheMapper;
 	}
 	
 	/*			Methoden für verschiedene Abfragezwecke				*/
@@ -40,7 +41,7 @@ public class SpracheMapper {
 	
 	public Vector<Sprache> findAll() {
 		Connection con = DBConnection.connection();
-		Vector<Sprache> result = new Vector();
+		Vector<Sprache> result = new Vector<Sprache>();
 		
 		try {
 			Statement stmt = con.createStatement();
@@ -50,10 +51,13 @@ public class SpracheMapper {
 				Sprache s = new Sprache();
 				s.setId(rs.getInt("Sprache_ID"));
 				s.setSprache(rs.getString("Sprache"));
+				
+				result.addElement(s);
 			}
 		} catch(SQLException e) {
 			e.printStackTrace();
 		}
+		return result;
 	}
 	
 	public Vector<Sprache> findBySprache (String sprache) {
@@ -62,7 +66,7 @@ public class SpracheMapper {
 		
 		try {
 			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT Sprache_ID, Sprache FROM sprache WHERE Sprache = " + sprache + " ORDER BY Sprache");
+			ResultSet rs = stmt.executeQuery("SELECT Sprache_ID, Sprache FROM sprache WHERE Sprache = '" + sprache + "' ORDER BY Sprache");
 			
 			while (rs.next()) {
 				Sprache s = new Sprache();

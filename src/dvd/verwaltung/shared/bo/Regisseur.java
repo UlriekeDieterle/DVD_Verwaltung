@@ -20,5 +20,10 @@ public class Regisseur {
 	public String getRegisseur() {
 		return this.regisseur;
 	}
+	
+	@Override
+	public String toString() {
+	    return super.toString() + " " + this.id + " " + this.regisseur;
+	  }
 
 }

@@ -47,5 +47,10 @@ public class Schauspieler {
 	public String getNationalitaet() {
 		return nationalitaet;
 	}
+	
+	@Override
+	public String toString() {
+	    return super.toString() + " " + this.id + " " + this.vorname + " " + this.nachname + " " + this.jahr + " " + this.nationalitaet;
+	  }
 
 }
