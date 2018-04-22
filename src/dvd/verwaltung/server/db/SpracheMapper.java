@@ -6,6 +6,8 @@ import java.util.Vector;
 import dvd.verwaltung.shared.bo.DVD;
 import dvd.verwaltung.shared.bo.Genre;
 import dvd.verwaltung.shared.bo.Sprache;
+import notenberechnung.server.db.DBConnection;
+import notenberechnung.shared.bo.Modulbelegung;
 
 
 public class SpracheMapper {
@@ -124,6 +126,28 @@ public class SpracheMapper {
 			Statement stmt = con.createStatement();
 			stmt.executeUpdate("DELETE FROM sprache WHERE Sprache_ID = " + sprache.getId());
 		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void deleteSpracheBelegung (Sprache s) {
+		Connection con = DBConnection.connection();
+		
+		try {
+			Statement smt = con.createStatement();
+			smt.executeUpdate("DELETE FROM gesprochene_sprache" + " WHERE Sprache_ID = " + s.getId());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void deleteUntertitelBelegung (Sprache s) {
+		Connection con = DBConnection.connection();
+		
+		try {
+			Statement smt = con.createStatement();
+			smt.executeUpdate("DELETE FROM untertitel" + " WHERE Sprache_ID = " + s.getId());
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}

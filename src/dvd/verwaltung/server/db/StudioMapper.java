@@ -6,6 +6,8 @@ import java.util.Vector;
 import dvd.verwaltung.shared.bo.DVD;
 import dvd.verwaltung.shared.bo.Genre;
 import dvd.verwaltung.shared.bo.Studio;
+import notenberechnung.server.db.DBConnection;
+import notenberechnung.shared.bo.Modulbelegung;
 
 public class StudioMapper {
 
@@ -129,6 +131,17 @@ public class StudioMapper {
 			stmt.executeUpdate("DELETE FROM produktionsstudio WHERE Studio_ID = " + studio.getId());
 			
 		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void deleteStudioBelegung (Studio s) {
+		Connection con = DBConnection.connection();
+		
+		try {
+			Statement smt = con.createStatement();
+			smt.executeUpdate("DELETE FROM studio_belegung" + " WHERE Studio_ID = " + s.getId());
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}

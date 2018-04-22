@@ -8,6 +8,8 @@ import dvd.verwaltung.shared.bo.Regisseur;
 import dvd.verwaltung.shared.bo.Schauspieler;
 import dvd.verwaltung.shared.bo.Sprache;
 import dvd.verwaltung.shared.bo.Studio;
+import notenberechnung.server.db.DBConnection;
+import notenberechnung.shared.bo.Modulbelegung;
 
 public class DVDMapper {
 
@@ -556,6 +558,72 @@ public class DVDMapper {
 			stmt.executeUpdate("DELETE FROM dvd " + "WHERE DVD_ID = " + dvd.getId());
 		}
 		catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void deleteGenreBelegung (DVD dvd) {
+		Connection con = DBConnection.connection();
+		
+		try {
+			Statement smt = con.createStatement();
+			smt.executeUpdate("DELETE FROM genre_belegung" + " WHERE DVD_ID = " + dvd.getId());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void deleteRegisseurBelegung (DVD dvd) {
+		Connection con = DBConnection.connection();
+		
+		try {
+			Statement smt = con.createStatement();
+			smt.executeUpdate("DELETE FROM regisseur_belegung" + " WHERE DVD_ID = " + dvd.getId());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void deleteSchauspielerBelegung (DVD dvd) {
+		Connection con = DBConnection.connection();
+		
+		try {
+			Statement smt = con.createStatement();
+			smt.executeUpdate("DELETE FROM darsteller_belegung" + " WHERE Darsteller_ID = " + dvd.getId());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void deleteSpracheBelegung (DVD dvd) {
+		Connection con = DBConnection.connection();
+		
+		try {
+			Statement smt = con.createStatement();
+			smt.executeUpdate("DELETE FROM gesprochene_sprache" + " WHERE Sprache_ID = " + dvd.getId());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void deleteUntertitelBelegung (DVD dvd) {
+		Connection con = DBConnection.connection();
+		
+		try {
+			Statement smt = con.createStatement();
+			smt.executeUpdate("DELETE FROM untertitel" + " WHERE Sprache_ID = " + dvd.getId());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void deleteStudioBelegung (DVD dvd) {
+		Connection con = DBConnection.connection();
+		
+		try {
+			Statement smt = con.createStatement();
+			smt.executeUpdate("DELETE FROM studio_belegung" + " WHERE Studio_ID = " + dvd.getId());
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}

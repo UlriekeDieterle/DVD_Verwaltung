@@ -6,6 +6,8 @@ import java.util.Vector;
 import dvd.verwaltung.shared.bo.DVD;
 import dvd.verwaltung.shared.bo.Genre;
 import dvd.verwaltung.shared.bo.Schauspieler;
+import notenberechnung.server.db.DBConnection;
+import notenberechnung.shared.bo.Modulbelegung;
 
 public class SchauspielerMapper {
 
@@ -167,6 +169,17 @@ public class SchauspielerMapper {
 			Statement stmt = con.createStatement();
 			stmt.executeUpdate("DELETE FROM darsteller WHERE Darsteller_ID = " + s.getId());
 			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void deleteSchauspielerBelegung (Schauspieler s) {
+		Connection con = DBConnection.connection();
+		
+		try {
+			Statement smt = con.createStatement();
+			smt.executeUpdate("DELETE FROM darsteller_belegung" + " WHERE Darsteller_ID = " + s.getId());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
