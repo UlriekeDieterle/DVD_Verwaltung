@@ -18,11 +18,10 @@ public class TestDB {
 		SpracheMapper sprMapper = new SpracheMapper();
 		StudioMapper studMapper = new StudioMapper();
 		
+		/*			Test der Mapper an sich					*/
 		
-		
-		
-		//DVD dvd = new DVD();
-		//dvd.setId(4);
+		DVD dvd = new DVD();
+		dvd.setId(2);
 		/*dvd.setTitel("test");
 		dvd.setFSK(12);
 		dvd.setProduktionsjahr(2016);
@@ -33,6 +32,12 @@ public class TestDB {
 		dvd.setAnzahlDisc(1);
 		dvd.setArtDVD("normal");
 		dvd.setSerieFilm("Film");*/
+		
+		//System.out.println(dMapper.findByFSKGroesser(6));
+		//System.out.println(dMapper.findByFSKKleiner(12));
+		//System.out.println(dMapper.findByLaengeGroesser(90));
+		//System.out.println(dMapper.findByLaengeKleiner(140));
+		System.out.println(dMapper.getDetailsOfDVDGenre(dvd));
 			
 		//dMapper.findByKey(1);
 		
@@ -108,6 +113,12 @@ public class TestDB {
 		//System.out.println(studMapper.update(st));
 		//studMapper.delete(st);
 		//System.out.println(studMapper.findAll());
+		
+		
+		
+		/*					Test der Mapperbeziehungen und -belegungen					*/
+		
+		
 		
 		
 	}

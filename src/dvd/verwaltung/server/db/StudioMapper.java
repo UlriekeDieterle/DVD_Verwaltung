@@ -2,6 +2,9 @@ package dvd.verwaltung.server.db;
 
 import java.sql.*;
 import java.util.Vector;
+
+import dvd.verwaltung.shared.bo.DVD;
+import dvd.verwaltung.shared.bo.Genre;
 import dvd.verwaltung.shared.bo.Studio;
 
 public class StudioMapper {
@@ -128,5 +131,34 @@ public class StudioMapper {
 		} catch(SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public Vector<Studio> findByDVDid(DVD dvd) {
+		return findByDVD(dvd.getId());
+	}
+
+	private Vector<Studio> findByDVD(int id) {
+		Connection con = DBConnection.connection();
+		Vector<Studio> result = new Vector<Studio>();
+		
+		try{
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT produktionsstudio.Studio_ID, produktionsstudio.Name,"
+					+ " produktionsstudio.Sitz_Land FROM produktionsstudio JOIN studio_belegung "
+					+ "ON produktionsstudio.Studio_ID = studio_belegung.Studio_ID WHERE studio_belegung.DVD_ID = " + id);
+			
+			while(rs.next()) {
+				Studio s = new Studio();
+				s.setId(rs.getInt("Studio_ID"));
+				s.setName(rs.getString("Name"));
+				s.setSitz(rs.getString("Sitz_Land"));
+				
+				result.addElement(s);
+			}
+			
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}		
+		return result;
 	}
 }

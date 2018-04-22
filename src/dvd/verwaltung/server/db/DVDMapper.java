@@ -26,7 +26,6 @@ public class DVDMapper {
 	
 	/*		Methoden für verschiedene Abfragezwecke				*/
 	
-	// SELECT spalten_name FROM tabelle1 JOIN tabelle2 ON tabelle1.spalten_name = tabelle2.spalten_name
 	
 	public DVD findByKey(int id) {
 		Connection con = DBConnection.connection();
@@ -94,7 +93,7 @@ public class DVDMapper {
 	}
 	
 	
-	public Vector<DVD> findByFSK(int fsk) {
+	public Vector<DVD> findByFSKGleich(int fsk) {
 		Connection con = DBConnection.connection();
 		Vector<DVD> result = new Vector<DVD>();
 		
@@ -104,6 +103,76 @@ public class DVDMapper {
 			ResultSet rs = stmt.executeQuery("SELECT DVD_ID, Titel, FSK, Produktionsjahr, Erscheinungsjahr, "
 					+ "Beschreibung, Filmlänge, Stichwort, Anzahl_Disc, Art_DVD, Serie_Film FROM dvd"
 					+ " WHERE FSK = " + fsk + " ORDER BY Titel");
+						
+			while (rs.next()){
+				DVD dvd = new DVD();
+				dvd.setId(rs.getInt("DVD_ID"));
+	            dvd.setTitel(rs.getString("Titel"));
+	            dvd.setFSK(rs.getInt("FSK"));
+	            dvd.setProduktionsjahr(rs.getInt("Produktionsjahr"));
+	            dvd.setErscheinungsjahr(rs.getInt("Erscheinungsjahr"));
+	            dvd.setBeschreibung(rs.getString("Beschreibung"));
+	            dvd.setFilmlaenge(rs.getInt("Filmlänge"));
+	            dvd.setStichwort(rs.getString("Stichwort"));
+	            dvd.setAnzahlDisc(rs.getInt("Anzahl_Disc"));
+	            dvd.setArtDVD(rs.getString("Art_DVD"));
+	            dvd.setSerieFilm(rs.getString("Serie_Film"));
+				
+				result.addElement(dvd);
+				
+			}
+		}catch (SQLException e) {
+				e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+	public Vector<DVD> findByFSKKleiner(int fsk) {
+		Connection con = DBConnection.connection();
+		Vector<DVD> result = new Vector<DVD>();
+		
+		try {
+			Statement stmt = con.createStatement();
+			
+			ResultSet rs = stmt.executeQuery("SELECT DVD_ID, Titel, FSK, Produktionsjahr, Erscheinungsjahr, "
+					+ "Beschreibung, Filmlänge, Stichwort, Anzahl_Disc, Art_DVD, Serie_Film FROM dvd"
+					+ " WHERE FSK <= " + fsk + " ORDER BY Titel");
+						
+			while (rs.next()){
+				DVD dvd = new DVD();
+				dvd.setId(rs.getInt("DVD_ID"));
+	            dvd.setTitel(rs.getString("Titel"));
+	            dvd.setFSK(rs.getInt("FSK"));
+	            dvd.setProduktionsjahr(rs.getInt("Produktionsjahr"));
+	            dvd.setErscheinungsjahr(rs.getInt("Erscheinungsjahr"));
+	            dvd.setBeschreibung(rs.getString("Beschreibung"));
+	            dvd.setFilmlaenge(rs.getInt("Filmlänge"));
+	            dvd.setStichwort(rs.getString("Stichwort"));
+	            dvd.setAnzahlDisc(rs.getInt("Anzahl_Disc"));
+	            dvd.setArtDVD(rs.getString("Art_DVD"));
+	            dvd.setSerieFilm(rs.getString("Serie_Film"));
+				
+				result.addElement(dvd);
+				
+			}
+		}catch (SQLException e) {
+				e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+	public Vector<DVD> findByFSKGroesser(int fsk) {
+		Connection con = DBConnection.connection();
+		Vector<DVD> result = new Vector<DVD>();
+		
+		try {
+			Statement stmt = con.createStatement();
+			
+			ResultSet rs = stmt.executeQuery("SELECT DVD_ID, Titel, FSK, Produktionsjahr, Erscheinungsjahr, "
+					+ "Beschreibung, Filmlänge, Stichwort, Anzahl_Disc, Art_DVD, Serie_Film FROM dvd"
+					+ " WHERE FSK >= " + fsk + " ORDER BY Titel");
 						
 			while (rs.next()){
 				DVD dvd = new DVD();
@@ -164,7 +233,7 @@ public class DVDMapper {
 		return result;
 	}
 	
-	public Vector<DVD> findByLaenge(int laenge) {
+	public Vector<DVD> findByLaengeKleiner (int laenge) {
 		Connection con = DBConnection.connection();
 		Vector<DVD> result = new Vector<DVD>();
 		
@@ -173,7 +242,42 @@ public class DVDMapper {
 			
 			ResultSet rs = stmt.executeQuery("SELECT DVD_ID, Titel, FSK, Produktionsjahr, Erscheinungsjahr, "
 					+ "Beschreibung, Filmlänge, Stichwort, Anzahl_Disc, Art_DVD, Serie_Film FROM dvd"
-					+ " WHERE Filmlänge = " + laenge + " ORDER BY Titel");
+					+ " WHERE Filmlänge <= " + laenge + " ORDER BY Titel");
+						
+			while (rs.next()){
+				DVD dvd = new DVD();
+				dvd.setId(rs.getInt("DVD_ID"));
+	            dvd.setTitel(rs.getString("Titel"));
+	            dvd.setFSK(rs.getInt("FSK"));
+	            dvd.setProduktionsjahr(rs.getInt("Produktionsjahr"));
+	            dvd.setErscheinungsjahr(rs.getInt("Erscheinungsjahr"));
+	            dvd.setBeschreibung(rs.getString("Beschreibung"));
+	            dvd.setFilmlaenge(rs.getInt("Filmlänge"));
+	            dvd.setStichwort(rs.getString("Stichwort"));
+	            dvd.setAnzahlDisc(rs.getInt("Anzahl_Disc"));
+	            dvd.setArtDVD(rs.getString("Art_DVD"));
+	            dvd.setSerieFilm(rs.getString("Serie_Film"));
+				
+				result.addElement(dvd);
+				
+			}
+		}catch (SQLException e) {
+				e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+	public Vector<DVD> findByLaengeGroesser(int laenge) {
+		Connection con = DBConnection.connection();
+		Vector<DVD> result = new Vector<DVD>();
+		
+		try {
+			Statement stmt = con.createStatement();
+			
+			ResultSet rs = stmt.executeQuery("SELECT DVD_ID, Titel, FSK, Produktionsjahr, Erscheinungsjahr, "
+					+ "Beschreibung, Filmlänge, Stichwort, Anzahl_Disc, Art_DVD, Serie_Film FROM dvd"
+					+ " WHERE Filmlänge >= " + laenge + " ORDER BY Titel");
 						
 			while (rs.next()){
 				DVD dvd = new DVD();
@@ -456,8 +560,30 @@ public class DVDMapper {
 		}
 	}
 	
-	/* hier wird Modulbelegung von Student gemacht
-		public Vector<Modulbelegung> getModulbelegungOfStudent (Student s) {
-			return ModulBelegungsMapper.modulbelegungsMapper().findByStudent(s);
-		}*/
+	/*			Details von DVD anzeigen können; Abfrage der Zwischentabellen			*/
+	
+	public Vector<Genre> getDetailsOfDVDGenre (DVD dvd) {
+		return GenreMapper.genreMapper().findByDVDid(dvd);
+	}
+	
+	public Vector<Regisseur> getDetailsofDVDRegisseur (DVD dvd) {
+		return RegisseurMapper.regisseurMapper.findByDVDid(dvd);
+	}
+	
+	public Vector<Schauspieler> getDetailsofDVDSchauspieler (DVD dvd) {
+		return SchauspielerMapper.schauspielerMapper.findByDVDid(dvd);
+	}
+	
+	public Vector<Sprache> getDetailsofDVDSprache (DVD dvd) {
+		return SpracheMapper.spracheMapper.findByDVDid(dvd);
+	}
+	
+	public Vector<Sprache> getDetailsofDVDUntertitel (DVD dvd) {
+		return SpracheMapper.spracheMapper().findUntertitelByDVDid(dvd);
+	}
+	
+	public Vector<Studio> getDetailsofDVDStudio (DVD dvd) {
+		return StudioMapper.studioMapper.findByDVDid(dvd);
+	}
+	
 }

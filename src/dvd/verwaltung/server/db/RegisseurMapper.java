@@ -2,6 +2,9 @@ package dvd.verwaltung.server.db;
 
 import java.sql.*;
 import java.util.Vector;
+
+import dvd.verwaltung.shared.bo.DVD;
+import dvd.verwaltung.shared.bo.Genre;
 import dvd.verwaltung.shared.bo.Regisseur;
 
 public class RegisseurMapper {
@@ -124,5 +127,32 @@ public class RegisseurMapper {
 		} catch(SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public Vector<Regisseur> findByDVDid(DVD dvd) {
+		return findByDVD(dvd.getId());
+	}
+	
+	private Vector<Regisseur> findByDVD(int id) {
+		Connection con = DBConnection.connection();
+		Vector<Regisseur> result = new Vector<Regisseur>();
+		
+		try{
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT regisseur.Regisseur_ID, regisseur.Name FROM regisseur JOIN regisseur_belegung "
+					+ "ON regisseur.Regisseur_ID = regisseur_belegung.Regisseur_ID WHERE regisseur_belegung.DVD_ID = " + id);
+			
+			while(rs.next()) {
+				Regisseur r = new Regisseur();
+				r.setId(rs.getInt("Regisseur_ID"));
+				r.setRegisseur(rs.getString("Name"));
+				
+				result.addElement(r);
+			}
+			
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}		
+		return result;
 	}
 }

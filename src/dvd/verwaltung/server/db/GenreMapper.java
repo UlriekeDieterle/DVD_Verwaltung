@@ -1,6 +1,8 @@
 package dvd.verwaltung.server.db;
 
 import java.sql.*;
+
+import dvd.verwaltung.shared.bo.DVD;
 import dvd.verwaltung.shared.bo.Genre;
 import java.util.Vector;
 
@@ -135,6 +137,33 @@ public class GenreMapper {
 		} catch(SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public Vector<Genre> findByDVDid(DVD dvd) {
+		return findByDVD(dvd.getId());
+	}
+
+	private Vector<Genre> findByDVD(int id) {
+		Connection con = DBConnection.connection();
+		Vector<Genre> result = new Vector<Genre>();
+		
+		try{
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT genre.Genre_ID, genre.Genre FROM genre JOIN genre_belegung "
+					+ "ON genre.Genre_ID = genre_belegung.Genre_ID WHERE genre_belegung.DVD_ID = " + id);
+			
+			while(rs.next()) {
+				Genre g = new Genre();
+				g.setId(rs.getInt("Genre_ID"));
+				g.setGenre(rs.getString("Genre"));
+				
+				result.addElement(g);
+			}
+			
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}		
+		return result;
 	}
 		
 }

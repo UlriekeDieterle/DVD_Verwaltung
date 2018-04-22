@@ -2,6 +2,9 @@ package dvd.verwaltung.server.db;
 
 import java.sql.*;
 import java.util.Vector;
+
+import dvd.verwaltung.shared.bo.DVD;
+import dvd.verwaltung.shared.bo.Genre;
 import dvd.verwaltung.shared.bo.Sprache;
 
 
@@ -123,5 +126,58 @@ public class SpracheMapper {
 		} catch(SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public Vector<Sprache> findByDVDid(DVD dvd) {
+		return findByDVD(dvd.getId());
+	}
+	
+	private Vector<Sprache> findByDVD(int id) {
+		Connection con = DBConnection.connection();
+		Vector<Sprache> result = new Vector<Sprache>();
+		
+		try{
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT sprache.Sprache_ID, sprache.Sprache FROM sprache JOIN gesprochene_sprache "
+					+ "ON sprache.Sprache_ID = gesprochene_sprache.Sprache_ID WHERE gesprochene_sprache.DVD_ID = " + id);
+			
+			while(rs.next()) {
+				Sprache s = new Sprache();
+				s.setId(rs.getInt("Sprache_ID"));
+				s.setSprache(rs.getString("Sprache"));
+				result.addElement(s);
+			}
+			
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}		
+		return result;
+	}
+
+	public Vector<Sprache> findUntertitelByDVDid(DVD dvd) {
+		return findUntertitelByDVD(dvd.getId());
+	}
+
+	private Vector<Sprache> findUntertitelByDVD (int id) {
+		Connection con = DBConnection.connection();
+		Vector<Sprache> result = new Vector<Sprache>();
+		
+		try{
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT sprache.Sprache_ID, sprache.Sprache FROM sprache JOIN untertitel "
+					+ "ON sprache.Sprache_ID = untertitel.Sprache_ID WHERE untertitel.DVD_ID = " + id);
+			
+			while(rs.next()) {
+				Sprache s = new Sprache();
+				s.setId(rs.getInt("Sprache_ID"));
+				s.setSprache(rs.getString("Sprache"));
+				
+				result.addElement(s);
+			}
+			
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}		
+		return result;
 	}
 }
