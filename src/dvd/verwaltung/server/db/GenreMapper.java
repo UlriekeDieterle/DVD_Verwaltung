@@ -4,9 +4,8 @@ import java.sql.*;
 
 import dvd.verwaltung.shared.bo.DVD;
 import dvd.verwaltung.shared.bo.Genre;
-import notenberechnung.server.db.DBConnection;
-import notenberechnung.shared.bo.Modulbelegung;
 
+import java.util.ArrayList;
 import java.util.Vector;
 
 public class GenreMapper {
@@ -119,6 +118,22 @@ public class GenreMapper {
 		return genre;
 	}
 	
+	public Genre insertGenreBelegung (DVD dvd, Genre genre) {
+		Connection con = DBConnection.connection();
+		
+		try{
+			Statement stmt = con.createStatement();
+			
+			stmt.executeUpdate("INSERT INTO genre_belegung (DVD_ID, Genre_ID) SELECT dvd.DVD_ID, genre.Genre_ID"
+						+ " FROM dvd, genre WHERE dvd.DVD_ID = " + dvd.getId() +  " AND genre.Genre_ID = " + genre.getId());
+				
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return null;		//muss noch geklärt werden, was und wie zurückgeben
+	}
+	
 	public Genre update (Genre genre) {
 		Connection con = DBConnection.connection();
 		
@@ -132,6 +147,24 @@ public class GenreMapper {
 		return genre;
 	}
 	
+	/*public Genre updateGenreBelegung (DVD dvd, ArrayList<Genre> genre) {
+		Connection con = DBConnection.connection();
+		
+		try{
+			Statement stmt = con.createStatement();
+			
+			for( Genre g : genre) { //SQL Abfrage klären wegen Update anstatt von Insert
+				stmt.executeUpdate("INSERT INTO genre_belegung (DVD_ID, Genre_ID) SELECT dvd.DVD_ID, genre.Genre_ID"
+						+ " FROM dvd, genre WHERE dvd.DVD_ID = " + dvd.getId() +  " AND genre.Genre_ID = " + g.getId());
+				
+			}
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return null;		//muss noch geklärt werden, was und wie zurückgeben 
+	}*/
+	
 	public void delete (Genre genre) {
 		Connection con = DBConnection.connection();
 		try {
@@ -142,12 +175,12 @@ public class GenreMapper {
 		}
 	}
 	
-	public void deleteGenreBelegung (Genre g) {
+	public void deleteGenreBelegung (Genre g, DVD dvd) {
 		Connection con = DBConnection.connection();
 		
 		try {
 			Statement smt = con.createStatement();
-			smt.executeUpdate("DELETE FROM genre_belegung" + " WHERE Genre_ID = " + g.getId());
+			smt.executeUpdate("DELETE FROM genre_belegung" + " WHERE Genre_ID = " + g.getId() + " AND DVD_ID = " + dvd.getId());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

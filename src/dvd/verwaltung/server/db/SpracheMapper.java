@@ -1,13 +1,12 @@
 package dvd.verwaltung.server.db;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Vector;
 
 import dvd.verwaltung.shared.bo.DVD;
 import dvd.verwaltung.shared.bo.Genre;
 import dvd.verwaltung.shared.bo.Sprache;
-import notenberechnung.server.db.DBConnection;
-import notenberechnung.shared.bo.Modulbelegung;
 
 
 public class SpracheMapper {
@@ -107,6 +106,38 @@ public class SpracheMapper {
 		return sprache;
 	}
 	
+	public Sprache insertSpracheBelegung (DVD dvd, Sprache s) {
+		Connection con = DBConnection.connection();
+		
+		try{
+			Statement stmt = con.createStatement();
+			
+			stmt.executeUpdate("INSERT INTO gesprochene_sprache (DVD_ID, Sprache_ID) SELECT dvd.DVD_ID, sprache.Sprache_ID"
+						+ " FROM dvd, sprache WHERE dvd.DVD_ID = " + dvd.getId() +  " AND sprache.Sprache_ID = " + s.getId());
+				
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return null;		//muss noch geklärt werden, was und wie zurückgeben
+	}
+	
+	public Sprache insertUntertitel (DVD dvd, Sprache s) {
+		Connection con = DBConnection.connection();
+		
+		try{
+			Statement stmt = con.createStatement();
+			
+			stmt.executeUpdate("INSERT INTO untertitel (DVD_ID, Sprache_ID) SELECT dvd.DVD_ID, sprache.Sprache_ID"
+						+ " FROM dvd, sprache WHERE dvd.DVD_ID = " + dvd.getId() +  " AND sprache.Sprache_ID = " + s.getId());
+				
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return null;		//muss noch geklärt werden, was und wie zurückgeben
+	}
+	
 	public Sprache update (Sprache sprache) {
 		Connection con = DBConnection.connection();
 		try {
@@ -130,12 +161,12 @@ public class SpracheMapper {
 		}
 	}
 	
-	public void deleteSpracheBelegung (Sprache s) {
+	public void deleteSpracheBelegung (Sprache s, DVD dvd) {
 		Connection con = DBConnection.connection();
 		
 		try {
 			Statement smt = con.createStatement();
-			smt.executeUpdate("DELETE FROM gesprochene_sprache" + " WHERE Sprache_ID = " + s.getId());
+			smt.executeUpdate("DELETE FROM gesprochene_sprache" + " WHERE Sprache_ID = " + s.getId() + " AND DVD_ID = " + dvd.getId());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

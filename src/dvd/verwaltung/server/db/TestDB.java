@@ -1,5 +1,7 @@
 package dvd.verwaltung.server.db;
 
+import java.util.ArrayList;
+
 import dvd.verwaltung.shared.bo.DVD;
 import dvd.verwaltung.shared.bo.Genre;
 import dvd.verwaltung.shared.bo.Regisseur;
@@ -21,7 +23,7 @@ public class TestDB {
 		/*			Test der Mapper an sich					*/
 		
 		DVD dvd = new DVD();
-		dvd.setId(2);
+		dvd.setId(3);
 		/*dvd.setTitel("test");
 		dvd.setFSK(12);
 		dvd.setProduktionsjahr(2016);
@@ -37,7 +39,7 @@ public class TestDB {
 		//System.out.println(dMapper.findByFSKKleiner(12));
 		//System.out.println(dMapper.findByLaengeGroesser(90));
 		//System.out.println(dMapper.findByLaengeKleiner(140));
-		System.out.println(dMapper.getDetailsOfDVDGenre(dvd));
+		//System.out.println(dMapper.getDetailsOfDVDGenre(dvd));
 			
 		//dMapper.findByKey(1);
 		
@@ -53,9 +55,17 @@ public class TestDB {
 		//System.out.println(dMapper.findByTitel("Troja"));
 		
 		
-		//Genre genre = new Genre();
-		//genre.setId(24);
-		//genre.setGenre("test2");
+		/*Genre genre = new Genre();
+		genre.setId(5);
+		
+		
+		Genre genre2 = new Genre();
+		genre2.setId(10);
+		
+		
+		Genre genre3 = new Genre();
+		genre3.setId(3);*/
+		
 		
 		//System.out.println(gMapper.update(genre));
 		//System.out.println(gMapper.findAll());
@@ -118,9 +128,15 @@ public class TestDB {
 		
 		/*					Test der Mapperbeziehungen und -belegungen					*/
 		
+		/*ArrayList<Genre> test = new ArrayList<Genre>();
+		test.add(0, genre);
+		test.add(1, genre2);
+		test.add(2, genre3);*/
 		
+		//System.out.println(gMapper.insertGenreBelegung(dvd, test));
 		
-		
+		//dMapper.deleteGenreBelegung(dvd);
+		//dMapper.deleteRegisseurBelegung(dvd);
 	}
 
 }

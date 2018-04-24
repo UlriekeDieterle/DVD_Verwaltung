@@ -7,12 +7,12 @@
 
   <!-- Servlets -->
   <servlet>
-    <servlet-name>greetServlet</servlet-name>
-    <servlet-class>dvd.verwaltung.server.GreetingServiceImpl</servlet-class>
+    <servlet-name>DVDVerwaltungAdministrationImpl</servlet-name>
+    <servlet-class>dvd.verwaltung.server.DVDVerwaltungAdministrationImpl</servlet-class>
   </servlet>
   
   <servlet-mapping>
-    <servlet-name>greetServlet</servlet-name>
+    <servlet-name>DVDVerwaltungAdministrationImpl</servlet-name>
     <url-pattern>/dvd_projekt/greet</url-pattern>
   </servlet-mapping>
   

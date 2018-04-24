@@ -1,13 +1,12 @@
 package dvd.verwaltung.server.db;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Vector;
 
 import dvd.verwaltung.shared.bo.DVD;
 import dvd.verwaltung.shared.bo.Genre;
 import dvd.verwaltung.shared.bo.Studio;
-import notenberechnung.server.db.DBConnection;
-import notenberechnung.shared.bo.Modulbelegung;
 
 public class StudioMapper {
 
@@ -111,6 +110,22 @@ public class StudioMapper {
 		return studio;
 	}
 	
+	public Studio insertStudioBelegung (DVD dvd, Studio s) {
+		Connection con = DBConnection.connection();
+		
+		try{
+			Statement stmt = con.createStatement();
+			
+			stmt.executeUpdate("INSERT INTO studio_belegung (DVD_ID, Studio_ID) SELECT dvd.DVD_ID, produktionsstudio.Studio_ID"
+						+ " FROM dvd, produktionsstudio WHERE dvd.DVD_ID = " + dvd.getId() +  " AND produktionsstudio.Studio_ID = " + s.getId());
+				
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return null;		//muss noch geklärt werden, was und wie zurückgeben
+	}
+	
 	public Studio update (Studio studio) {
 		Connection con = DBConnection.connection();
 		try {
@@ -135,12 +150,12 @@ public class StudioMapper {
 		}
 	}
 	
-	public void deleteStudioBelegung (Studio s) {
+	public void deleteStudioBelegung (Studio s, DVD dvd) {
 		Connection con = DBConnection.connection();
 		
 		try {
 			Statement smt = con.createStatement();
-			smt.executeUpdate("DELETE FROM studio_belegung" + " WHERE Studio_ID = " + s.getId());
+			smt.executeUpdate("DELETE FROM studio_belegung" + " WHERE Studio_ID = " + s.getId() + " AND DVD_ID = " + dvd.getId());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

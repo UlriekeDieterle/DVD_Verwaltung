@@ -1,13 +1,12 @@
 package dvd.verwaltung.server.db;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Vector;
 
 import dvd.verwaltung.shared.bo.DVD;
 import dvd.verwaltung.shared.bo.Genre;
 import dvd.verwaltung.shared.bo.Regisseur;
-import notenberechnung.server.db.DBConnection;
-import notenberechnung.shared.bo.Modulbelegung;
 
 public class RegisseurMapper {
 	
@@ -121,6 +120,22 @@ public class RegisseurMapper {
 		return regisseur;
 	}
 	
+	public Regisseur insertRegisseurBelegung (DVD dvd, Regisseur r) {
+		Connection con = DBConnection.connection();
+		
+		try{
+			Statement stmt = con.createStatement();
+			
+			stmt.executeUpdate("INSERT INTO regisseur_belegung (DVD_ID, Regisseur_ID) SELECT dvd.DVD_ID, regisseur.Regisseur_ID"
+						+ " FROM dvd, regisseur WHERE dvd.DVD_ID = " + dvd.getId() +  " AND regisseur.Regisseur_ID = " + r.getId());
+				
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return null;		//muss noch geklärt werden, was und wie zurückgeben
+	}
+	
 	public void delete (Regisseur regisseur) {
 		Connection con = DBConnection.connection();
 		try {
@@ -131,12 +146,12 @@ public class RegisseurMapper {
 		}
 	}
 	
-	public void deleteRegisseurBelegung (Regisseur r) {
+	public void deleteRegisseurBelegung (Regisseur r, DVD dvd) {
 		Connection con = DBConnection.connection();
 		
 		try {
 			Statement smt = con.createStatement();
-			smt.executeUpdate("DELETE FROM regisseur_belegung" + " WHERE Regisseur_ID = " + r.getId());
+			smt.executeUpdate("DELETE FROM regisseur_belegung" + " WHERE Regisseur_ID = " + r.getId() + " AND DVD_ID = " + dvd.getId());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
