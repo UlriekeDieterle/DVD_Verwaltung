@@ -182,19 +182,9 @@ public class SchauspielerMapper {
 		Connection con = DBConnection.connection();
 		try {
 			Statement stmt = con.createStatement();
+			stmt.executeUpdate("DELETE FROM darsteller_belegung WHERE Darsteller_ID = " + s.getId());
 			stmt.executeUpdate("DELETE FROM darsteller WHERE Darsteller_ID = " + s.getId());
 			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public void deleteSchauspielerBelegung (Schauspieler s, DVD dvd) {
-		Connection con = DBConnection.connection();
-		
-		try {
-			Statement smt = con.createStatement();
-			smt.executeUpdate("DELETE FROM darsteller_belegung" + " WHERE Darsteller_ID = " + s.getId() + " AND DVD_ID = " + dvd.getId());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

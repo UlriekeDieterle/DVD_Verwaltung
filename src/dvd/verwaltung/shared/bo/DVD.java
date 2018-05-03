@@ -1,8 +1,11 @@
 package dvd.verwaltung.shared.bo;
 
-public class DVD {
+public class DVD extends BusinessObject {
 
-	private int id = 0;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String titel = null;
 	private int fsk = 0;
 	private int prodjahr;
@@ -108,13 +111,4 @@ public class DVD {
 	    		+ " " + this.beschreibung + " " + this.filmlaenge + " " + this.stichwort + " " + this.anzahlDisc + " " 
 	    		+ this.artDVD + " " + this.serieFilm;
 	  }
-
-	
-	
-	
-	
-	
-	
-	
-
 }

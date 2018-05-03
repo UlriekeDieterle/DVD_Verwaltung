@@ -1,8 +1,11 @@
 package dvd.verwaltung.shared.bo;
 
-public class Studio {
+public class Studio extends BusinessObject {
 
-	private int id = 0;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String name = null ;
 	private String sitz = null;
 

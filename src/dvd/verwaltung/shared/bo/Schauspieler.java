@@ -1,8 +1,11 @@
 package dvd.verwaltung.shared.bo;
 
-public class Schauspieler {
+public class Schauspieler extends BusinessObject {
 
-	private int id = 0;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String vorname = null;
 	private String nachname = null;
 	private int jahr = 0;

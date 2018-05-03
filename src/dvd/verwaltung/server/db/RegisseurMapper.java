@@ -140,19 +140,9 @@ public class RegisseurMapper {
 		Connection con = DBConnection.connection();
 		try {
 			Statement stmt = con.createStatement();
+			stmt.executeUpdate("DELETE FROM regisseur_belegung WHERE Regisseur_ID = " + regisseur.getId());
 			stmt.executeUpdate("DELETE FROM regisseur WHERE Regisseur_ID = " + regisseur.getId());
 		} catch(SQLException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public void deleteRegisseurBelegung (Regisseur r, DVD dvd) {
-		Connection con = DBConnection.connection();
-		
-		try {
-			Statement smt = con.createStatement();
-			smt.executeUpdate("DELETE FROM regisseur_belegung" + " WHERE Regisseur_ID = " + r.getId() + " AND DVD_ID = " + dvd.getId());
-		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}

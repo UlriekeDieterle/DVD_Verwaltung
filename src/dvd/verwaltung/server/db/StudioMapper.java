@@ -143,20 +143,10 @@ public class StudioMapper {
 		Connection con = DBConnection.connection();
 		try {
 			Statement stmt = con.createStatement();
+			stmt.executeUpdate("DELETE FROM studio_belegung WHERE Studio_ID = " + studio.getId());
 			stmt.executeUpdate("DELETE FROM produktionsstudio WHERE Studio_ID = " + studio.getId());
 			
 		} catch(SQLException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public void deleteStudioBelegung (Studio s, DVD dvd) {
-		Connection con = DBConnection.connection();
-		
-		try {
-			Statement smt = con.createStatement();
-			smt.executeUpdate("DELETE FROM studio_belegung" + " WHERE Studio_ID = " + s.getId() + " AND DVD_ID = " + dvd.getId());
-		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}

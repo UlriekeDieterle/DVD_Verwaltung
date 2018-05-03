@@ -169,19 +169,9 @@ public class GenreMapper {
 		Connection con = DBConnection.connection();
 		try {
 			Statement stmt = con.createStatement();
+			stmt.executeUpdate("DELETE FROM genre_belegung WHERE Genre_ID = " + genre.getId());
 			stmt.executeUpdate("DELETE FROM genre WHERE Genre_ID = " + genre.getId());
 		} catch(SQLException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public void deleteGenreBelegung (Genre g, DVD dvd) {
-		Connection con = DBConnection.connection();
-		
-		try {
-			Statement smt = con.createStatement();
-			smt.executeUpdate("DELETE FROM genre_belegung" + " WHERE Genre_ID = " + g.getId() + " AND DVD_ID = " + dvd.getId());
-		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}

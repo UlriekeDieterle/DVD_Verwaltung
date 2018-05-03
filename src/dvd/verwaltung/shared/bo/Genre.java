@@ -1,8 +1,11 @@
 package dvd.verwaltung.shared.bo;
 
-public class Genre {
+public class Genre extends BusinessObject {
 
-	private int id = 0;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String genre = null;
 
 	public void setId(int id) {

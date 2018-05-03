@@ -553,7 +553,15 @@ public class DVDMapper {
 		
 		try {
 			Statement stmt = con.createStatement();
-			stmt.executeUpdate("DELETE FROM dvd " + "WHERE DVD_ID = " + dvd.getId());
+			
+			stmt.executeUpdate("DELETE FROM genre_belegung WHERE DVD_ID = " + dvd.getId());
+			stmt.executeUpdate("DELETE FROM regisseur_belegung WHERE DVD_ID = " + dvd.getId());
+			stmt.executeUpdate("DELETE FROM studio_belegung WHERE DVD_ID = " + dvd.getId());
+			stmt.executeUpdate("DELETE FROM darsteller_belegung WHERE DVD_ID = " + dvd.getId());
+			stmt.executeUpdate("DELETE FROM gesprochene_sprache WHERE DVD_ID = " + dvd.getId());
+			stmt.executeUpdate("DELETE FROM untertitel WHERE DVD_ID = " + dvd.getId());
+			
+			stmt.executeUpdate("DELETE FROM dvd WHERE DVD_ID = " + dvd.getId());
 		}
 		catch (SQLException e) {
 			e.printStackTrace();

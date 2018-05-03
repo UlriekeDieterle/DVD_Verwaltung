@@ -1,8 +1,7 @@
 package dvd.verwaltung.shared.bo;
 
-public class Sprache {
+public class Sprache extends BusinessObject {
 	
-	int id = 0;
 	private String sprache = null;
 
 	public void setId(int id) {

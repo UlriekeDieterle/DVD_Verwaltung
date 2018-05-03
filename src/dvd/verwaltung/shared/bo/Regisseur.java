@@ -1,8 +1,11 @@
 package dvd.verwaltung.shared.bo;
 
-public class Regisseur {
+public class Regisseur extends BusinessObject {
 
-	private int id = 0;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String regisseur = null;
 
 	public void setId(int id) {
