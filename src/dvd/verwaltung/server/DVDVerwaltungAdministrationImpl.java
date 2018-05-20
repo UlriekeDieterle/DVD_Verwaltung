@@ -1,21 +1,12 @@
 package dvd.verwaltung.server;
 
+
 import java.util.Vector;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import dvd.verwaltung.client.DVDVerwaltungAdministration;
-import dvd.verwaltung.server.db.DVDMapper;
-import dvd.verwaltung.server.db.GenreMapper;
-import dvd.verwaltung.server.db.RegisseurMapper;
-import dvd.verwaltung.server.db.SchauspielerMapper;
-import dvd.verwaltung.server.db.SpracheMapper;
-import dvd.verwaltung.server.db.StudioMapper;
-import dvd.verwaltung.shared.bo.DVD;
-import dvd.verwaltung.shared.bo.Genre;
-import dvd.verwaltung.shared.bo.Regisseur;
-import dvd.verwaltung.shared.bo.Schauspieler;
-import dvd.verwaltung.shared.bo.Sprache;
-import dvd.verwaltung.shared.bo.Studio;
+import dvd.verwaltung.server.db.*;
+import dvd.verwaltung.shared.bo.*;
 
 public class DVDVerwaltungAdministrationImpl extends RemoteServiceServlet implements DVDVerwaltungAdministration {
 
@@ -65,6 +56,93 @@ public class DVDVerwaltungAdministrationImpl extends RemoteServiceServlet implem
 	}
 	
 	@Override
+	public void insertDVD (DVD dvd, Genre genre, Regisseur regisseur, Sprache sprache, Schauspieler schauspieler, Studio studio)
+		throws IllegalArgumentException {
+		createGenreBelegung (genre, dvd);
+		createRegisseurBelegung (regisseur, dvd);
+		createSchauspielerBelegung (schauspieler, dvd);
+		createSpracheBelegung (sprache, dvd);
+		createUntertitelBelegung (sprache, dvd);
+		createStudioBelegung (studio, dvd);
+	}
+	
+	@Override
+	public Genre createGenre (String name) throws IllegalArgumentException {
+		Genre genre = new Genre();
+		genre.setGenre(name);
+		
+		return genreMapper.insert(genre);
+	}
+	
+	@Override
+	public Genre createGenreBelegung (Genre genre, DVD dvd) throws IllegalArgumentException {
+		return genreMapper.insertGenreBelegung(dvd, genre);
+	}
+	
+	@Override
+	public Regisseur createRegisseur (String name) throws IllegalArgumentException {
+		Regisseur regisseur = new Regisseur();
+		regisseur.setRegisseur(name);
+		
+		return regisseurMapper.insert(regisseur);
+	}
+	
+	@Override
+	public Regisseur createRegisseurBelegung (Regisseur reg, DVD dvd) throws IllegalArgumentException {
+		return regisseurMapper.insertRegisseurBelegung(dvd, reg);
+	}
+	
+	@Override
+	public Schauspieler createSchauspieler (String vorname, String nachname, int jahr, String nationalitaet) throws IllegalArgumentException {
+		Schauspieler schauspieler = new Schauspieler();
+		schauspieler.setVorname(vorname);
+		schauspieler.setNachname(nachname);
+		schauspieler.setGeburtsjahr(jahr);
+		schauspieler.setNationalitaet(nationalitaet);
+		
+		return schauspielerMapper.insert(schauspieler);
+	}
+	
+	@Override
+	public Schauspieler createSchauspielerBelegung (Schauspieler schausp, DVD dvd) throws IllegalArgumentException {
+		return schauspielerMapper.insertSchauspielerBelegung(dvd, schausp);
+	}
+	
+	@Override
+	public Sprache createSprache (String name) throws IllegalArgumentException {
+		Sprache sprache = new Sprache();
+		sprache.setSprache(name);
+		
+		return spracheMapper.insert(sprache);
+	}
+	
+	@Override
+	public Sprache createSpracheBelegung (Sprache sprache, DVD dvd) throws IllegalArgumentException {
+		return spracheMapper.insertSpracheBelegung(dvd, sprache);
+	}
+	
+	@Override
+	public Sprache createUntertitelBelegung (Sprache sprache, DVD dvd) throws IllegalArgumentException {
+		return spracheMapper.insertUntertitel(dvd, sprache);
+	}
+	
+	@Override
+	public Studio createStudio (String name, String sitz) throws IllegalArgumentException {
+		Studio studio = new Studio();
+		studio.setName(name);
+		studio.setSitz(sitz);
+		
+		return studioMapper.insert(studio);
+	}
+	
+	@Override
+	public Studio createStudioBelegung (Studio studio, DVD dvd) throws IllegalArgumentException {
+		return studioMapper.insertStudioBelegung(dvd, studio);
+	}
+	
+	/*------------------------------------------------------------------------------------*/
+	
+	@Override
 	public void delete (DVD dvd) throws IllegalArgumentException {		
 		dvdMapper.delete(dvd);
 	}
@@ -97,7 +175,7 @@ public class DVDVerwaltungAdministrationImpl extends RemoteServiceServlet implem
 	/*------------------------------------------------------------------------------------*/
 	
 	@Override
-	public void save (DVD dvd) throws IllegalArgumentException {
+	public void save(DVD dvd) throws IllegalArgumentException {
 		dvdMapper.update(dvd);
 	}
 	
@@ -126,20 +204,191 @@ public class DVDVerwaltungAdministrationImpl extends RemoteServiceServlet implem
 		studioMapper.update(studio);
 	}
 	
+	/*------------------------------------------------------------------------------------*/
+	
 	@Override
 	public Vector<DVD> getAllDVDs() throws IllegalArgumentException {
 		return dvdMapper.findAll();
 	}
-
+	
 	@Override
-	public void deleteDVD(DVD dvd) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		
+	public Vector<DVD> getDVDErschjahr(int jahr) throws IllegalArgumentException {
+		return dvdMapper.findByErschjahr(jahr);
 	}
 	
-	// Details von allen Zwischentabellen anzeigen
-//	@Override
-//	public 
+	@Override
+	public Vector<DVD> getDVDProdjahr(int jahr) throws IllegalArgumentException {
+		return dvdMapper.findByProdjahr(jahr);
+	}
+	
+	@Override
+	public Vector<DVD> getByFSK(int fsk, Auswahl auswahl) throws IllegalArgumentException {
+		
+		switch (auswahl) {
+		case kleiner: return dvdMapper.findByFSKKleiner(fsk); 
+		case groesser: return dvdMapper.findByFSKGroesser(fsk); 
+		case gleich: return dvdMapper.findByFSKGleich(fsk);
+		}
+		
+		return null;
+	}
+	
+	@Override
+	public Vector<DVD> getByLaenge(int laenge, Auswahl auswahl) throws IllegalArgumentException {
+		
+		switch (auswahl) {
+		case kleiner: return dvdMapper.findByLaengeKleiner(laenge); 
+		case groesser: return dvdMapper.findByLaengeGroesser(laenge); 
+		default:
+			break;
+		}
+		
+		return null;
+	}
+	
+	@Override
+	public DVD getByKey (int id) throws IllegalArgumentException {
+		return dvdMapper.findByKey(id);
+	}
+	
+	@Override
+	public Vector<DVD> getBySerieFilm (String serieFilm) throws IllegalArgumentException {
+		return dvdMapper.findBySerieFilm(serieFilm);
+	}
+	
+	@Override
+	public Vector<DVD> getByStichwort (String stichwort) throws IllegalArgumentException {
+		return dvdMapper.findByStichwort(stichwort);
+	}
+	
+	@Override
+	public Vector<DVD> getByTitel (String titel) throws IllegalArgumentException {
+		return dvdMapper.findByTitel(titel);
+	}
+	
+	/*------------------------------------------------------------------------------------*/
+	
+	@Override
+	public Vector<Genre> getAllGenre() throws IllegalArgumentException {
+		return genreMapper.findAll();
+	}
+	
+	@Override
+	public Genre getByGenreId(int id) throws IllegalArgumentException {
+		return genreMapper.findByKey(id);
+	}
+	
+	@Override
+	public Vector<Genre> getByGenre (String name) throws IllegalArgumentException {
+		return genreMapper.findByGenre(name);
+	}
+	
+	/*------------------------------------------------------------------------------------*/
+
+	@Override
+	public Vector<Regisseur> getAllRegisseur() throws IllegalArgumentException {
+		return regisseurMapper.findAll();
+	}
+	
+	@Override
+	public Regisseur getByRegisseurId (int id) throws IllegalArgumentException {
+	return regisseurMapper.findByKey(id);
+	}
+	
+	@Override
+	public Vector<Regisseur> getByRegisseurName (String name) throws IllegalArgumentException {
+		return regisseurMapper.findByName(name);
+	}
+	
+	/*------------------------------------------------------------------------------------*/
+
+	@Override
+	public Vector<Schauspieler> getAllSchauspieler() throws IllegalArgumentException {
+		return schauspielerMapper.findAll();
+	}
+	
+	@Override
+	public Schauspieler getSchauspielerId (int id) throws IllegalArgumentException {
+		return schauspielerMapper.findByKey(id);
+	}
+	
+	@Override
+	public Vector<Schauspieler> getByNachname (String name) throws IllegalArgumentException {
+		return schauspielerMapper.findByNachname(name);
+	}
+	
+	@Override
+	public Vector<Schauspieler> getByNationalitaet (String nationalitaet) throws IllegalArgumentException {
+		return schauspielerMapper.findByNationalitaet(nationalitaet);
+	}
+	
+	/*------------------------------------------------------------------------------------*/
+
+	@Override
+	public Vector<Sprache> getAllSprachen () throws IllegalArgumentException {
+		return spracheMapper.findAll();
+	}
+	
+	@Override
+	public Sprache getSpracheById (int id) throws IllegalArgumentException {
+		return spracheMapper.findByKey(id);
+	}
+	
+	@Override
+	public Vector<Sprache> getSpracheByName (String name) throws IllegalArgumentException {
+		return spracheMapper.findBySprache(name);
+	}
+	
+	/*------------------------------------------------------------------------------------*/
+
+	@Override
+	public Vector<Studio> getAllStudio () throws IllegalArgumentException {
+		return studioMapper.findAll();
+	}
+	
+	@Override
+	public Studio getStudioById (int id) throws IllegalArgumentException {
+		return studioMapper.findByKey(id);
+	}
+	
+	@Override
+	public Vector<Studio> getByStudioName (String name) throws IllegalArgumentException {
+		return studioMapper.findByName(name);
+	}
+	
+	/*------------------------------------------------------------------------------------*/
+
+	@Override
+	public Vector<Genre> getGenreByDVD (DVD dvd) throws IllegalArgumentException {
+		return dvdMapper.getDetailsOfDVDGenre(dvd);
+	}
+	
+	@Override
+	public Vector<Schauspieler> getSchauspielerByDVD (DVD dvd) throws IllegalArgumentException {
+		return dvdMapper.getDetailsofDVDSchauspieler(dvd);
+	}
+	
+	@Override
+	public Vector<Regisseur> getRegisseurByDVD (DVD dvd) throws IllegalArgumentException {
+		return dvdMapper.getDetailsofDVDRegisseur(dvd);
+	}
+	
+	@Override
+	public Vector<Sprache> getSpracheByDVD (DVD dvd) throws IllegalArgumentException {
+		return dvdMapper.getDetailsofDVDSprache(dvd);
+	}
+	
+	@Override
+	public Vector<Sprache> getUntertitelByDVD (DVD dvd) throws IllegalArgumentException {
+		return dvdMapper.getDetailsofDVDUntertitel(dvd);
+	}
+	
+	@Override
+	public Vector<Studio> getStudioByDVD (DVD dvd) throws IllegalArgumentException {
+		return dvdMapper.getDetailsofDVDStudio(dvd);
+	}
+	
+
 	
 	
 	
