@@ -1,4 +1,4 @@
-package dvd.verwaltung.client;
+package dvd.verwaltung.shared;
 
 import java.util.Vector;
 

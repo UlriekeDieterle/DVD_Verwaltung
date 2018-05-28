@@ -1,6 +1,8 @@
-package dvd.verwaltung.client;
+package dvd.verwaltung.shared;
 
 import java.util.Vector;
+
+import org.eclipse.jetty.security.authentication.LoginCallback;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -128,6 +130,8 @@ public interface DVDVerwaltungAdministrationAsync {
 	void getUntertitelByDVD(DVD dvd, AsyncCallback<Vector<Sprache>> callback);
 
 	void getStudioByDVD(DVD dvd, AsyncCallback<Vector<Studio>> callback);
+
+	void login(String string, LoginCallback loginCallback);
 
 	
 

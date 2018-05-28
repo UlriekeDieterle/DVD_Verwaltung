@@ -4,8 +4,9 @@ package dvd.verwaltung.server;
 import java.util.Vector;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
-import dvd.verwaltung.client.DVDVerwaltungAdministration;
+
 import dvd.verwaltung.server.db.*;
+import dvd.verwaltung.shared.DVDVerwaltungAdministration;
 import dvd.verwaltung.shared.bo.*;
 
 public class DVDVerwaltungAdministrationImpl extends RemoteServiceServlet implements DVDVerwaltungAdministration {
