@@ -1,5 +1,6 @@
 package dvd.verwaltung.shared;
 
+import java.util.Map;
 import java.util.Vector;
 
 import org.eclipse.jetty.security.authentication.LoginCallback;
@@ -119,19 +120,9 @@ public interface DVDVerwaltungAdministrationAsync {
 
 	void getByStudioName(String name, AsyncCallback<Vector<Studio>> callback);
 
-	void getGenreByDVD(DVD dvd, AsyncCallback<Vector<Genre>> callback);
+	void setDVD(DVD dvd, AsyncCallback<Void> callback);
 
-	void getSchauspielerByDVD(DVD dvd, AsyncCallback<Vector<Schauspieler>> callback);
-
-	void getRegisseurByDVD(DVD dvd, AsyncCallback<Vector<Regisseur>> callback);
-
-	void getSpracheByDVD(DVD dvd, AsyncCallback<Vector<Sprache>> callback);
-
-	void getUntertitelByDVD(DVD dvd, AsyncCallback<Vector<Sprache>> callback);
-
-	void getStudioByDVD(DVD dvd, AsyncCallback<Vector<Studio>> callback);
-
-	void login(String string, LoginCallback loginCallback);
+	void sayHelloTest(String name, AsyncCallback<String> callback);
 
 	
 

@@ -1,8 +1,10 @@
 package dvd.verwaltung.shared;
 
+import java.util.Map;
 import java.util.Vector;
 
 import com.google.gwt.user.client.rpc.RemoteService;
+import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 import dvd.verwaltung.shared.bo.Auswahl;
 import dvd.verwaltung.shared.bo.DVD;
@@ -12,6 +14,7 @@ import dvd.verwaltung.shared.bo.Schauspieler;
 import dvd.verwaltung.shared.bo.Sprache;
 import dvd.verwaltung.shared.bo.Studio;
 
+@RemoteServiceRelativePath("dvd")
 public interface DVDVerwaltungAdministration extends RemoteService {
 
 	DVD createDVD(String titel, int fsk, int prodjahr, int erschjahr, String beschreibung, int filmlaenge,
@@ -117,16 +120,8 @@ public interface DVDVerwaltungAdministration extends RemoteService {
 
 	Vector<DVD> getAllDVDs() throws IllegalArgumentException;
 
-	Vector<Genre> getGenreByDVD(DVD dvd) throws IllegalArgumentException;
-
-	Vector<Schauspieler> getSchauspielerByDVD(DVD dvd) throws IllegalArgumentException;
-
-	Vector<Regisseur> getRegisseurByDVD(DVD dvd) throws IllegalArgumentException;
-
-	Vector<Sprache> getSpracheByDVD(DVD dvd) throws IllegalArgumentException;
-
-	Vector<Sprache> getUntertitelByDVD(DVD dvd) throws IllegalArgumentException;
-
-	Vector<Studio> getStudioByDVD(DVD dvd) throws IllegalArgumentException;
+	void setDVD(DVD dvd);
+	
+	String sayHelloTest (String name);
 
 }

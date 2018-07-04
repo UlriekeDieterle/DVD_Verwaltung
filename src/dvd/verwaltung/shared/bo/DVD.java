@@ -1,5 +1,7 @@
 package dvd.verwaltung.shared.bo;
 
+import java.util.Vector;
+
 public class DVD extends BusinessObject {
 
 	/**
@@ -111,4 +113,6 @@ public class DVD extends BusinessObject {
 	    		+ " " + this.beschreibung + " " + this.filmlaenge + " " + this.stichwort + " " + this.anzahlDisc + " " 
 	    		+ this.artDVD + " " + this.serieFilm;
 	  }
+
+	
 }

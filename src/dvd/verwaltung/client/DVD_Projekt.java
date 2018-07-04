@@ -1,106 +1,112 @@
 package dvd.verwaltung.client;
 
-import dvd.verwaltung.shared.DVDVerwaltungAdministration;
 import dvd.verwaltung.shared.DVDVerwaltungAdministrationAsync;
-import dvd.verwaltung.shared.FieldVerifier;
 import dvd.verwaltung.shared.bo.DVD;
 
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.ParagraphElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.HTML;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
  */
 public class DVD_Projekt implements EntryPoint {
-	/**
-	 * The message displayed to the user when the server cannot be reached or
-	 * returns an error.
-	 */
-	private static final String SERVER_ERROR = "An error occurred while "
-			+ "attempting to contact the server. Please check your network " + "connection and try again.";
-
+		
 	/**
 	 * Create a remote service proxy to talk to the server-side Greeting service.
 	 */
-	private final DVDVerwaltungAdministrationAsync dvdVerwaltung = ClientsideSettings.getDVDVerwaltung();
+	
+	//Konstruktor!
+	public DVD_Projekt() {	
+	}
 
 	@Override
 	public void onModuleLoad() {
-		dvdVerwaltung.login(GWT.getHostPageBaseURL() + "DVD_Projekt.html", new LoginCallback());
+		DVD dvd = new DVD();
+//		
+		DVDVerwaltungAdministrationAsync dvdVerwaltung = ClientsideSettings.getDVDVerwaltung();
+//
+//		dvdVerwaltung.setDVD(dvd, new SetDVDCallback());
+//		
+		HorizontalPanel navPanel = new HorizontalPanel();
+		//navPanel.setStylePrimaryName("horizontalPanel");
+//		
+//		Label test = new Label("Test2");
+//		navPanel.add(test);
 		
+		final Button dvdAnzeigen = new Button("Alle DVDs anzeigen");
+		dvdAnzeigen.setStylePrimaryName("menubutton");
+		navPanel.add(dvdAnzeigen);
+		
+		dvdAnzeigen.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				BasicFrame bf = new DVDAnzeigen();
+				Navbar nb = new Navbar();
+				RootPanel.get("Details").clear();
+				RootPanel.get("Navigator").add(nb);
+				RootPanel.get("Details").add(bf);
+			}
+		});
+		
+		final Button dvdHinzufuegen = new Button ("Neue DVD hinzufügen");
+		dvdHinzufuegen.setStylePrimaryName("menubutton");
+		navPanel.add(dvdHinzufuegen);
+		
+		dvdHinzufuegen.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				BasicFrame bf = new DVDHinzufuegen();
+				Navbar nb = new Navbar();
+				RootPanel.get("Details").clear();
+				RootPanel.get("Navigator").add(nb);
+				RootPanel.get("Details").add(bf);
+			}
+		});
+		
+		final Button dvdSuchen = new Button("DVD suchen");
+		dvdSuchen.setStylePrimaryName("menubutton");
+		navPanel.add(dvdSuchen);
+		
+		dvdSuchen.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				Navbar nb = new Navbar();
+				RootPanel.get("Details").clear();
+				RootPanel.get("Navigator").add(nb);
+				
+				BasicFrame bf = new DVDSuchen();
+				RootPanel.get("Details").add(bf);
+			}
+		});
+		
+		RootPanel.get("Details").add(navPanel);
+//		HTML test2 = new HTML("<p> irgendwas </p>");
+//		RootPanel.get("Navigator").add(test2);
 	}
 	
-	class LoginCallback implements AsyncCallback<DVD> {
-		  
+	
+	class SetDVDCallback implements AsyncCallback<Void> {
+
 		@Override
 		public void onFailure(Throwable caught) {
-			ClientsideSettings.getLogger().severe("Starten der Anwendung fehlgeschlagen.");
-		}
-		
-		@Override
-		public void onSuccess (DVD empty) {
-			createStartScreen(empty);
+			ClientsideSettings.getLogger().severe("Starten der Anwendung fehlgeschlagen!");
 		}
 
+		@Override
+		public void onSuccess(Void result) {
+		}
+		
 	}
 	
-	private void createStartScreen(DVD empty) {
-		FlowPanel splashContainer = new FlowPanel();
-		splashContainer.setStyleName("splash-container");
-		
-		FlowPanel splash = new FlowPanel();
-		splash.setStyleName("splash");
-		
-		HTML headingElement = new HTML();
-		headingElement.setHTML("Willkommen auf der DVD Verwaltung");
-		headingElement.setStyleName("splash-head");
-		
-		FlowPanel splashSubhead = new FlowPanel(ParagraphElement.TAG);
-		splashSubhead.setStyleName("splash-subhead");
-		HTML splashParagraph = new HTML ("Was möchtest du tun?");
-		splashSubhead.add(splashParagraph);
-		
-		Anchor dvdSuchenAnchor  = new Anchor ("DVD suchen und anzeigen");
-		dvdSuchenAnchor.setStyleName("dvdSuchen");
-		dvdSuchenAnchor.setHref(empty.getLogin());
-		
-		Anchor dvdAnlegenAnchor = new Anchor ("neue DVD hinzufügen");
-		dvdAnlegenAnchor.setStyleName("dvdAnlegen");
-		
-		splash.add(headingElement);
-		splash.add(splashSubhead);
-		splash.add(dvdSuchenAnchor);
-		splash.add(dvdAnlegenAnchor);
-		
-		splashContainer.add(splash);
-		RootPanel.get("main").add(splashContainer);
-	}
-	
-	private void dvdSuchen() {
-		Navbar nb = new Navbar();
-		RootPanel.get("searchmenu").clear();
-		RootPanel.get("searchmenu").add(nb);
-	}
-	
-	private void dvdAnlegen() {
-		BasicFrame cf = new DVDSuchen();
-		RootPanel.get("main").clear();
-		RootPanel.get("main").add(cf);
-	}
 }

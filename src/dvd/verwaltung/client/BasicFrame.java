@@ -1,18 +1,22 @@
 package dvd.verwaltung.client;
 
-import com.google.gwt.event.logical.shared.AttachEvent.Handler;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.FlowPanel;
 
-public abstract class BasicFrame extends Widget {
+public abstract class BasicFrame extends FlowPanel {
 
 	@Override
 	public void onLoad() {
 		super.onLoad();
-		this.addAttachHandler(createHeadline(getHeadlineText(), getSubHeadlineText()));
-		RootPanel.get("search-table").clear();
-		run();
+		this.add(createHeadline(getHeadlineText(), getSubHeadlineText()));
+//		RootPanel.get("search-table").clear();
+		this.run();
+	}
+
+	private void add(HTML createHeadline) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	protected HTML createHeadline(String header, String subHeader) {
@@ -20,6 +24,12 @@ public abstract class BasicFrame extends Widget {
 		content.setStylePrimaryName("header");
 		content.setHTML("<h1>" + header + "</h1><h2>" + subHeader + "</h2>");
 		return content;
+	}
+	
+	protected void append(String text) {
+		HTML content = new HTML(text);
+		content.setStylePrimaryName("simpletext");
+		this.add(content);
 	}
 
 	protected abstract void run();

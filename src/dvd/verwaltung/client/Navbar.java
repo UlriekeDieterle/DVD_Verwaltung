@@ -1,15 +1,12 @@
 package dvd.verwaltung.client;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-import dvd.verwaltung.client.gui.ListItemWidget;
-import dvd.verwaltung.client.gui.UnorderedListWidget;
 import dvd.verwaltung.shared.DVDVerwaltungAdministrationAsync;
 
 public class Navbar extends VerticalPanel {
@@ -20,39 +17,44 @@ public class Navbar extends VerticalPanel {
 	
 	@Override
 	protected void onLoad() {
-		RootPanel.get("menu").getElement().getStyle().setBackgroundColor("#58FAF4");
+		RootPanel.get("Details").getElement().getStyle().setBackgroundColor("#BEF781"); /* hellgrün*/
 		
 		FlowPanel menu = new FlowPanel();
-		UnorderedListWidget menuList = new UnorderedListWidget();
+		//UnorderedListWidget menuList = new UnorderedListWidget();
 		
-		menuList.setStyleName("menuList");
+		//menuList.setStyleName("menuList");
 		menu.setStyleName("menuList");
 		
-		Anchor dvdHinzufuegen = new Anchor("DVD hinzufügen");
-		Anchor dvdSuchen = new Anchor("DVD suchen");
+		final Button dvdAnzeigen = new Button ("Alle DVDs anzeigen");
+		final Button dvdHinzufuegen = new Button("Neue DVD hinzufügen");
+		final Button dvdSuchen = new Button("DVD suchen");
 		
-		dvdHinzufuegen.setStyleName("anchor_Style");
-		dvdHinzufuegen.add(new ListItemWidget (dvdHinzufuegen));
+		dvdAnzeigen.setStyleName("menubutton");
+		menu.add(dvdAnzeigen);
 		
-		dvdSuchen.setStyleName("anchor_Style");
-		dvdSuchen.add(new ListItemWidget(dvdSuchen));
+		dvdHinzufuegen.setStyleName("menubutton");
+		menu.add(dvdHinzufuegen);
 		
-		menu.add(menuList);
+		dvdSuchen.setStyleName("menubutton");
+		menu.add(dvdSuchen);
 		
-		RootPanel.get("menu").add(menu);
+		//menu.add(menuList);
+		
+		RootPanel.get("Navigator").add(menu);
 		
 		dvdHinzufuegen.addClickHandler(new DVDHinzufuegenClickHandler());
 		dvdSuchen.addClickHandler(new DVDSuchenClickHandler());
+		dvdAnzeigen.addClickHandler(new DVDAnzeigenClickHandler());
 		
 	}
 	
 	private class DVDHinzufuegenClickHandler implements ClickHandler {
 		
 		@Override
-		public void onClick(ClickEvent event) {
+		public void onClick(ClickEvent event) {			
 			DVDHinzufuegen neu = new DVDHinzufuegen();
-			RootPanel.get("main").clear();
-			RootPanel.get("main").add(neu);			
+			RootPanel.get("Details").clear();
+			RootPanel.get("Details").add(neu);			
 		}
 	}
 	
@@ -61,9 +63,18 @@ public class Navbar extends VerticalPanel {
 		@Override
 		public void onClick(ClickEvent event) {
 			DVDSuchen suche = new DVDSuchen();
-			RootPanel.get("main").clear();
-			RootPanel.get("main").add(suche);
+			RootPanel.get("Details").clear();
+			RootPanel.get("Details").add(suche);
 		}
-		
+	}
+	
+	private class DVDAnzeigenClickHandler implements ClickHandler {
+
+		@Override
+		public void onClick(ClickEvent event) {
+			DVDAnzeigen anzeige = new DVDAnzeigen();
+			RootPanel.get("Details").clear();
+			RootPanel.get("Details").add(anzeige);
+		}
 	}
 }

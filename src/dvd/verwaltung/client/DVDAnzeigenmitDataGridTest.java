@@ -1,12 +1,11 @@
 package dvd.verwaltung.client;
 
-public class DVDSuchen extends BasicFrame {
+import java.util.List;
+import java.util.Vector;
 
-	@Override
-	protected void run() {
-		// TODO Auto-generated method stub
-		
-	}
+import dvd.verwaltung.shared.bo.DVD;
+
+public class DVDAnzeigenmitDataGridTest extends BasicFrame {
 
 	@Override
 	protected String getSubHeadlineText() {
@@ -19,5 +18,15 @@ public class DVDSuchen extends BasicFrame {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	@Override
+	protected void run() {
+		//List<DVD> dvdListe = new List<DVD>();
+		
+		
+		
+	}
 
+	
+	
 }

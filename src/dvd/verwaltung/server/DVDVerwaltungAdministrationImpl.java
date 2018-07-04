@@ -1,8 +1,8 @@
 package dvd.verwaltung.server;
 
-
 import java.util.Vector;
 
+import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import dvd.verwaltung.server.db.*;
@@ -22,6 +22,8 @@ public class DVDVerwaltungAdministrationImpl extends RemoteServiceServlet implem
 	private SchauspielerMapper schauspielerMapper = null;
 	private SpracheMapper spracheMapper = null;
 	private StudioMapper studioMapper = null;
+
+	private DVD dvd;
 	
 	//Konstruktor
 	public DVDVerwaltungAdministrationImpl() throws IllegalArgumentException {}
@@ -358,40 +360,19 @@ public class DVDVerwaltungAdministrationImpl extends RemoteServiceServlet implem
 	}
 	
 	/*------------------------------------------------------------------------------------*/
+	
+	public DVD getDVD() throws IllegalArgumentException {
+		return this.dvd;
+	}
+	
+	public void setDVD(DVD dvd) throws IllegalArgumentException {
+		this.dvd = dvd;
+	}
 
 	@Override
-	public Vector<Genre> getGenreByDVD (DVD dvd) throws IllegalArgumentException {
-		return dvdMapper.getDetailsOfDVDGenre(dvd);
+	public String sayHelloTest(String name) {
+		String greeting = "Hello " + name;
+		return greeting;
 	}
-	
-	@Override
-	public Vector<Schauspieler> getSchauspielerByDVD (DVD dvd) throws IllegalArgumentException {
-		return dvdMapper.getDetailsofDVDSchauspieler(dvd);
-	}
-	
-	@Override
-	public Vector<Regisseur> getRegisseurByDVD (DVD dvd) throws IllegalArgumentException {
-		return dvdMapper.getDetailsofDVDRegisseur(dvd);
-	}
-	
-	@Override
-	public Vector<Sprache> getSpracheByDVD (DVD dvd) throws IllegalArgumentException {
-		return dvdMapper.getDetailsofDVDSprache(dvd);
-	}
-	
-	@Override
-	public Vector<Sprache> getUntertitelByDVD (DVD dvd) throws IllegalArgumentException {
-		return dvdMapper.getDetailsofDVDUntertitel(dvd);
-	}
-	
-	@Override
-	public Vector<Studio> getStudioByDVD (DVD dvd) throws IllegalArgumentException {
-		return dvdMapper.getDetailsofDVDStudio(dvd);
-	}
-	
-
-	
-	
-	
 	
 }

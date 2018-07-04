@@ -5,20 +5,20 @@
          version="2.5"
          xmlns="http://java.sun.com/xml/ns/javaee">
 
+    <!-- Default page to serve -->
+	<welcome-file-list>
+		<welcome-file>DVD_Projekt.html</welcome-file>
+	</welcome-file-list>
+    
   <!-- Servlets -->
   <servlet>
-    <servlet-name>DVDVerwaltungAdministrationImpl</servlet-name>
+    <servlet-name>DVDVerwaltung</servlet-name>
     <servlet-class>dvd.verwaltung.server.DVDVerwaltungAdministrationImpl</servlet-class>
   </servlet>
   
   <servlet-mapping>
-    <servlet-name>DVDVerwaltungAdministrationImpl</servlet-name>
-    <url-pattern>/dvd_projekt/greet</url-pattern>
+    <servlet-name>DVDVerwaltung</servlet-name>
+    <url-pattern>/dvd_projekt/dvd</url-pattern>
   </servlet-mapping>
-  
-  <!-- Default page to serve -->
-  <welcome-file-list>
-    <welcome-file>DVD_Projekt.html</welcome-file>
-  </welcome-file-list>
 
 </web-app>

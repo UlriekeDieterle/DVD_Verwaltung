@@ -32,3 +32,104 @@ h1 {
 #closeButton {
   margin: 15px 6px 6px;
 }
+
+.headline {
+	font-size: 12pt;
+	font-weight: bold;
+	color: #777777; /* grau */
+	margin: 0px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	text-align: left;
+}
+
+.subheadline {
+	font-size: 10pt;
+	color: #777777; /*grau */
+	margin: 0px;
+	text-align: left;
+}
+
+.simpletext {
+	font-size: 100%;
+	font-weight: normal;
+	padding: 3px;
+}
+
+.label {
+	font-size: 120%;
+	font-weight: bold;
+	font-style: italic;
+	color: gray;
+	padding-bottom: 0.5em;
+}
+
+.textfield {
+	font-size: 100%;
+	font-weight: normal;
+	padding: 3px;
+	width: 15em;
+}
+
+.menubutton {
+	font-size: 100%;
+	font-weight: bold;
+	width: 13em;
+	margin-bottom: 1em;
+	background: grey;
+}
+
+.button {
+	font-size: 100%;
+	font-weight: bold;
+}
+
+div#TopLevelFrame {
+	max-width: 600px;
+	min-width: 300px;
+	background: white;
+	overflow: scroll;
+	
+}
+
+div#Header {
+	margin: 5px;
+	background: #FA5882; /*pink */
+}
+
+div#Navigator {
+	max-heigth: 20px;
+	padding: 1em 1em;
+	width: auto; 
+	
+	background: #FE2E2E; /* rot */
+}
+
+div#Details {
+	padding: 4em 1em;
+	background: #A9E2F3; /* mittelblau */
+	width: auto;
+}
+
+div#Trailer {
+	clear: both;
+	padding: 10px 0;
+	margin: 0 auto;
+	border-top: 1px dashed silver;
+	font-size: 80%;
+	text-aligh: center;
+	background: #F5F6CE; /*eierschalen-farben */
+}
+
+.menuList {
+	background: #FE9A2E; /*orange */
+}
+
+.horizontalPanel {
+	/*background: #FE2E2E; /* rot */
+	max-height: 200px;
+}
+
+.search-table {
+	
+}

@@ -1,8 +1,7 @@
 package dvd.verwaltung.client;
 
+import java.util.logging.Logger;
 import com.google.gwt.core.client.GWT;
-import com.sun.istack.internal.logging.Logger;
-
 import dvd.verwaltung.shared.CommonSettings;
 import dvd.verwaltung.shared.DVDVerwaltungAdministration;
 import dvd.verwaltung.shared.DVDVerwaltungAdministrationAsync;
