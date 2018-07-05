@@ -24,7 +24,7 @@ public class TestDB {
 		
 		DVD dvd = new DVD();
 		dvd.setId(3);
-		/*dvd.setTitel("test");
+		dvd.setTitel("test");
 		dvd.setFSK(12);
 		dvd.setProduktionsjahr(2016);
 		dvd.setErscheinungsjahr(2016);
@@ -33,7 +33,7 @@ public class TestDB {
 		dvd.setStichwort("test");
 		dvd.setAnzahlDisc(1);
 		dvd.setArtDVD("normal");
-		dvd.setSerieFilm("Film");*/
+		dvd.setSerieFilm("Film");
 		
 		//System.out.println(dMapper.findByFSKGroesser(6));
 		//System.out.println(dMapper.findByFSKKleiner(12));

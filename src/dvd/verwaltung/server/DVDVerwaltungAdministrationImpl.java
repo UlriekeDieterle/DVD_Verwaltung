@@ -54,7 +54,6 @@ public class DVDVerwaltungAdministrationImpl extends RemoteServiceServlet implem
 		dvd.setSerieFilm(filmSerie);
 		dvd.setStichwort(stichwort);
 		
-		
 		return dvdMapper.insert(dvd);
 	}
 	
@@ -361,12 +360,44 @@ public class DVDVerwaltungAdministrationImpl extends RemoteServiceServlet implem
 	
 	/*------------------------------------------------------------------------------------*/
 	
+	@Override
 	public DVD getDVD() throws IllegalArgumentException {
 		return this.dvd;
 	}
 	
+	@Override
 	public void setDVD(DVD dvd) throws IllegalArgumentException {
 		this.dvd = dvd;
+	}
+	
+	@Override
+	public  Vector<Genre> getGenreByDVDID (DVD dvd) throws IllegalArgumentException {
+		return dvdMapper.getDetailsOfDVDGenre(dvd);
+	}
+	
+	@Override
+	public Vector<Regisseur> getRegisseurByDVDID (DVD dvd) throws IllegalArgumentException {
+		return dvdMapper.getDetailsofDVDRegisseur(dvd);
+	}
+	
+	@Override
+	public Vector<Schauspieler> getSchauspielerByDVDID (DVD dvd) throws IllegalArgumentException {
+		return dvdMapper.getDetailsofDVDSchauspieler(dvd);
+	}
+	
+	@Override
+	public Vector<Sprache> getSpracheByDVDID (DVD dvd) throws IllegalArgumentException {
+		return dvdMapper.getDetailsofDVDSprache(dvd);
+	}
+	
+	@Override
+	public Vector<Sprache> getUntertitelByDVDID (DVD dvd) throws IllegalArgumentException {
+		return dvdMapper.getDetailsofDVDUntertitel(dvd);
+	}
+	
+	@Override
+	public Vector<Studio> getStudioByDVDID (DVD dvd) throws IllegalArgumentException {
+		return dvdMapper.getDetailsofDVDStudio(dvd);
 	}
 
 	@Override

@@ -1,72 +1,83 @@
 package dvd.verwaltung.client;
 
-import java.util.Vector;
-
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
-import dvd.verwaltung.client.gui.DataGridDVD;
 import dvd.verwaltung.shared.DVDVerwaltungAdministrationAsync;
 import dvd.verwaltung.shared.bo.DVD;
-import dvd.verwaltung.shared.bo.Genre;
 
 public class DVDAnzeigen extends BasicFrame {
 
-	private Vector<DVD> dvdListe = new Vector<DVD>();
-	private Vector<DVD> genreListe = new Vector<DVD>();
-	private Vector<DVD> schauspielerListe = new Vector<DVD>();
-	private Vector<DVD> regisseurListe = new Vector<DVD>();
-	private Vector<DVD> spracheListe = new Vector<DVD>();
-	private Vector<DVD> untertitelListe = new Vector<DVD>();
-	private Vector<DVD> studioListe = new Vector<DVD>();
-	DVD dvd;
+	DVDVerwaltungAdministrationAsync dvdVerwaltung = ClientsideSettings.getDVDVerwaltung();
 
+	DVD dvd = null;
 	
-	public DVDAnzeigen (Vector<DVD> list) {
-		dvdListe = list;
+	public DVDAnzeigen(DVD dvd) {
+		this.dvd = dvd;
 	}
 	
-	public DVDAnzeigen() {}
+	FlowPanel contentPanel = new FlowPanel();
+	FlowPanel buttonPanel = new FlowPanel();
+	Button bearbeiten = new Button("bearbeiten");
+	Button speichern = new Button("speichern");
 	
-	public Vector<DVD> getDVDListe() {
-		return dvdListe;
-	}
-	
-	public void setDVDListe (Vector<DVD> dvdListe) {
-		this.dvdListe = dvdListe;
+	@Override
+	protected void run() {
+//		HTML legend = new HTML();
+		
+		bearbeiten.setEnabled(true);
+		speichern.setEnabled(false);
+		
+		bearbeiten.addClickHandler(new BearbeitenClickHandler());
+		speichern.addClickHandler(new SpeichernClickHandler());
+		
+		buttonPanel.add(bearbeiten);
+		buttonPanel.add(speichern);
+		
+		//TODO Callbacks für:
+		/*
+		 * dvdVerwaltung.getGenreByDVDID(dvd, new GenreByDVDCallback());
+			dvdVerwaltung.getRegisseurByDVDID(dvd, new RegisseurByDVDCallback());
+			dvdVerwaltung.getSchauspielerByDVDID(dvd, new SchauspielerByDVDCallback());
+			dvdVerwaltung.getSpracheByDVDID(dvd, new SpracheByDVDCallback());
+			dvdVerwaltung.getUntertitelByDVDID(dvd, new UntertitelByDVDCallback());
+			dvdVerwaltung.getStudioByDVDID(dvd, new StudioByDVDCallback());
+		 */
+		
+		//TODO weiter machen (Form mit Inhalten aufbauen) nach jeweiligen Callbacks!
+		
 	}
 
 	@Override
 	protected String getSubHeadlineText() {
-		return "Alle DVDs";
+		return null;
 	}
 
 	@Override
 	protected String getHeadlineText() {
-		return "Hier werden alle DVDs angezeigt";
+		return "Details von DVD ansehen";
+	} 
+	
+	private class BearbeitenClickHandler implements ClickHandler {
+
+		@Override
+		public void onClick(ClickEvent event) {
+			//TODO gute Frage was hier tun... Änderung der Button-Sicht
+		}
+		
 	}
 	
-	DVDVerwaltungAdministrationAsync dvdVerwaltung = ClientsideSettings.getDVDVerwaltung();
-	
-	@Override
-	protected void run() {
+	private class SpeichernClickHandler implements ClickHandler {
 
-		VerticalPanel contentPanel = new VerticalPanel();
-		FlexTable table = new FlexTable();
-				
-		contentPanel.add(table);
-		
-		DataGridDVD dg = new DataGridDVD(dvdListe);
-		
-		RootPanel.get("main").add(contentPanel);
-		RootPanel.get("search-table").add(dg.start());
+		@Override
+		public void onClick(ClickEvent event) {
+			// TODO hier update/insert Methode aufrufen und in DB schreiben + Callback
+			
+		}
 		
 	}
 }
-

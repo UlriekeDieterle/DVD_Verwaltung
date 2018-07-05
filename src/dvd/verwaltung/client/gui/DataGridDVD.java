@@ -6,8 +6,15 @@ import com.google.gwt.user.cellview.client.DataGrid;
 import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.LayoutPanel;
+import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.view.client.SelectionChangeEvent;
+import com.google.gwt.view.client.SingleSelectionModel;
+import com.google.gwt.view.client.SelectionChangeEvent.Handler;
 
+import dvd.verwaltung.client.BasicFrame;
 import dvd.verwaltung.client.ClientsideSettings;
+import dvd.verwaltung.client.DVDAnzeigen;
+import dvd.verwaltung.client.Navbar;
 import dvd.verwaltung.shared.DVDVerwaltungAdministrationAsync;
 import dvd.verwaltung.shared.bo.DVD;
 
@@ -15,9 +22,11 @@ public class DataGridDVD {
 
 	DVDVerwaltungAdministrationAsync dvdVerwaltung = ClientsideSettings.getDVDVerwaltung();
 	
-	DataGrid<DVD> table = new DataGrid<DVD>();
+	public DataGrid<DVD> table = new DataGrid<DVD>();
 	private Vector<DVD> dvdListe;
 	private FlowPanel flowPanel = new FlowPanel();
+	private DVD selected = null;
+
 	
 	public DataGridDVD (Vector<DVD> list) {
 		dvdListe = list;
@@ -114,24 +123,44 @@ public class DataGridDVD {
 		};
 		table.addColumn(discs, "Anzahl der Disc");
 		
-		TextColumn<DVD> beschreibung = new TextColumn<DVD>() {
-			@Override
-			public String getValue(DVD dvd) {
-				return dvd.getBeschreibung();
-			}
-		};
-		table.addColumn(beschreibung, "Beschreibung");
-		
 		table.setRowCount(dvdListe.size(), false);
-		table.setWidth("80%");
+		table.setWidth("100%");
 		table.setVisibleRange(0, dvdListe.size());
 		table.setRowData(0, dvdListe);
 		
 		LayoutPanel panel = new LayoutPanel();
-		panel.setSize("50em", "40em");
+		panel.setSize("1450px", "420px");
 		panel.add(table);
 		flowPanel.add(panel);
 		
 		return flowPanel;
+	}
+	
+	public void addDetailsClickHandler() {
+		final SingleSelectionModel<DVD> selectionModel = new SingleSelectionModel<DVD>();
+		table.setSelectionModel(selectionModel);
+		
+	    selectionModel.addSelectionChangeHandler(new SelectionChangeHandler(selectionModel));
+
+	}
+
+		private class SelectionChangeHandler implements Handler {
+	    private final SingleSelectionModel<DVD> selectionModel;
+
+	    private SelectionChangeHandler(SingleSelectionModel<DVD> selectionModel) {
+	      this.selectionModel = selectionModel;
+	    }
+	    
+	    @Override
+	    public void onSelectionChange(SelectionChangeEvent event) {
+	      selected = selectionModel.getSelectedObject();
+	      
+	      Navbar navbar = new Navbar();
+	      BasicFrame anzeigen = new DVDAnzeigen(selected);
+	      RootPanel.get("Details").clear();
+	      RootPanel.get("Navigator").add(navbar);
+	      RootPanel.get("Details").add(anzeigen);
+	      
+	    }
 	}
 }

@@ -1,9 +1,6 @@
 package dvd.verwaltung.shared;
 
-import java.util.Map;
 import java.util.Vector;
-
-import org.eclipse.jetty.security.authentication.LoginCallback;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -123,6 +120,22 @@ public interface DVDVerwaltungAdministrationAsync {
 	void setDVD(DVD dvd, AsyncCallback<Void> callback);
 
 	void sayHelloTest(String name, AsyncCallback<String> callback);
+
+	void getGenreByDVDID(DVD dvd, AsyncCallback<Vector<Genre>> callback);
+
+	void getRegisseurByDVDID(DVD dvd, AsyncCallback<Vector<Regisseur>> callback);
+
+	void getSchauspielerByDVDID(DVD dvd, AsyncCallback<Vector<Schauspieler>> callback);
+
+	void getSpracheByDVDID(DVD dvd, AsyncCallback<Vector<Sprache>> callback);
+
+	void getUntertitelByDVDID(DVD dvd, AsyncCallback<Vector<Sprache>> callback);
+
+	void getStudioByDVDID(DVD dvd, AsyncCallback<Vector<Studio>> callback);
+
+	void getDVD(AsyncCallback<DVD> callback);
+
+	void init(AsyncCallback<Void> callback);
 
 	
 

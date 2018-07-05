@@ -25,18 +25,18 @@ public class DVDHinzufuegen extends BasicFrame{
     RadioButton fsk16 = new RadioButton("FSK", "16");
     RadioButton fsk18 = new RadioButton("FSK", "18");
     
-    RadioButton serieFilm = new RadioButton("Serie oder Spielfilm", "Serie");
-    RadioButton serieFilm2 = new RadioButton("Serie oder Spielfilm", "Spielfilm");
-    RadioButton artDVD1 = new RadioButton("Art der DVD", "Extended Edition");
-    RadioButton artDVD2 = new RadioButton("Art der DVD", "Blu-Ray");
-    RadioButton artDVD3 = new RadioButton("Art der DVD", "Standard Version");
-    RadioButton artDVD4 = new RadioButton("Art der DVD", "Limited Edition");
-    RadioButton artDVD5 = new RadioButton("Art der DVD", "Special Edition");
-    RadioButton artDVD6 = new RadioButton("Art der DVD", "UK Import");
-    RadioButton artDVD7 = new RadioButton("Art der DVD", "USA Import");
-    RadioButton artDVD8 = new RadioButton("Art der DVD", "HD DVD");
-    RadioButton artDVD9 = new RadioButton("Art der DVD", "Steelbook");
-    RadioButton artDVD10 = new RadioButton("Art der DVD", "FR Import");
+    RadioButton serieFilm = new RadioButton("SerieFilm", "Serie");
+    RadioButton serieFilm2 = new RadioButton("SerieFilm", "Spielfilm");
+    RadioButton artDVD1 = new RadioButton("ArtderDVD", "Extended Edition");
+    RadioButton artDVD2 = new RadioButton("ArtderDVD", "Blu-Ray");
+    RadioButton artDVD3 = new RadioButton("ArtderDVD", "Standard Version");
+    RadioButton artDVD4 = new RadioButton("ArtderDVD", "Limited Edition");
+    RadioButton artDVD5 = new RadioButton("ArtderDVD", "Special Edition");
+    RadioButton artDVD6 = new RadioButton("ArtderDVD", "UK Import");
+    RadioButton artDVD7 = new RadioButton("ArtderDVD", "USA Import");
+    RadioButton artDVD8 = new RadioButton("ArtderDVD", "HD DVD");
+    RadioButton artDVD9 = new RadioButton("ArtderDVD", "Steelbook");
+    RadioButton artDVD10 = new RadioButton("ArtderDVD", "FR Import");
     
     
     TextBox beschreibung = new TextBox();
@@ -114,27 +114,75 @@ public class DVDHinzufuegen extends BasicFrame{
 	private class ConfirmClickHandler implements ClickHandler {
 		@Override
 		public void onClick(ClickEvent event) {
-			createDVD();
-			
+			RootPanel.get("Header").getElement().setInnerHTML("onClick");
+			createDVD();			
 		}
 	}
 
 	private void createDVD() {
 		String titel = this.titel.getText();
-		String filmSerie = "tbd";
-		String artDVD = "tbd";
+		int fsk = 1;
+		int prodJahr = Integer.parseInt(this.prodjahr.getText());
+		int erschJahr = Integer.parseInt(this.erschjahr.getText());
+		String beschreibung = this.beschreibung.getText();
+		int filmLaenge = Integer.parseInt(this.laenge.getText());
+		String stichwort = this.stichwort.getText();
+		int anzahlDisc = Integer.parseInt(this.anzahlDisc.getText());
+		String artDvd = null;
+		String filmSerie = null;	
 		
-		int fsk = -1;
+		if(fsk0.getValue() == true) {
+			fsk = 0;	
+		} else if (fsk6.getValue() == true) {
+			fsk = 6;
+		} else if (fsk12.getValue() == true) {
+			fsk = 12;
+		} else if (fsk16.getValue() == true) {
+			fsk = 16;
+		} else if (fsk18.getValue() == true) {
+			fsk = 18;
+		}
+		
+		if(serieFilm.getValue() == true) {
+			filmSerie = "Serie";
+		} else if (serieFilm.getValue() == true) {
+			filmSerie = "Spielfilm";
+		}
+		
+		if(artDVD1.getValue() == true) {
+			artDvd = "Extended Edition";
+		} else if (artDVD2.getValue() == true) {
+			artDvd = "Blu-Ray";
+		} else if (artDVD3.getValue() == true) {
+			artDvd = "Standard Version";
+		} else if (artDVD4.getValue() == true) {
+			artDvd = "Limited Edition";
+		} else if (artDVD5.getValue() == true) {
+			artDvd = "Special Edition";
+		} else if (artDVD6.getValue() == true) {
+			artDvd = "UK Import";
+		} else if (artDVD7.getValue() == true) {
+			artDvd = "USA Import";
+		} else if (artDVD8.getValue() == true) {
+			artDvd = "HD DVD";
+		} else if (artDVD9.getValue() == true) {
+			artDvd = "Steelbook";
+		} else if (artDVD10.getValue() == true) {
+			artDvd = "FR Import";
+		}
 		
 		if (!titel.isEmpty()) {
-			dvdVerwaltung.createDVD(this.titel.getText(), fsk, 
-					Integer.parseInt(this.prodjahr.getText()),
-					Integer.parseInt(this.erschjahr.getText()), 
-					this.beschreibung.getText(), 
-					Integer.parseInt(this.laenge.getText()), 
-					this.stichwort.getText(), 
-					Integer.parseInt(this.anzahlDisc.getText()), 
-					artDVD, filmSerie, new CreateDVDCallback());
+			dvdVerwaltung.createDVD(titel,
+					fsk, 
+					prodJahr,
+					erschJahr,
+					beschreibung,
+					filmLaenge,
+					stichwort,
+					anzahlDisc,
+					artDvd,
+					filmSerie,
+					new CreateDVDCallback());
 		}
 		
 	}
@@ -143,18 +191,18 @@ public class DVDHinzufuegen extends BasicFrame{
 
 		@Override
 		public void onFailure(Throwable caught) {
-			ClientsideSettings.getLogger().severe("DVD konnte nicht hinzugefügt werden.");
+//			ClientsideSettings.getLogger().severe("DVD konnte nicht hinzugefügt werden.");
 		}
 
 		@Override
 		public void onSuccess(DVD result) {
-			ClientsideSettings.getLogger().severe("DVD wurde hinzugefügt.");
-			
-			DVDAnzeigen anzeigen = new DVDAnzeigen();
-			Navbar nb = new Navbar();
-			RootPanel.get("Details").clear();
-			RootPanel.get("Navigator").add(nb);
-			RootPanel.get("Details").add(anzeigen);
+//			ClientsideSettings.getLogger().severe("DVD wurde hinzugefügt.");
+//			
+//			AlleDVDAnzeigen anzeigen = new AlleDVDAnzeigen();
+//			Navbar nb = new Navbar();
+//			RootPanel.get("Details").clear();
+//			RootPanel.get("Navigator").add(nb);
+//			RootPanel.get("Details").add(anzeigen);
 		}
 		
 	}

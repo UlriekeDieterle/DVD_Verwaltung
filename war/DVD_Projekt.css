@@ -85,7 +85,7 @@ h1 {
 }
 
 div#TopLevelFrame {
-	max-width: 600px;
+	max-width: 1500px;
 	min-width: 300px;
 	background: white;
 	overflow: scroll;

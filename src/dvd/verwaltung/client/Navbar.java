@@ -20,17 +20,15 @@ public class Navbar extends VerticalPanel {
 		RootPanel.get("Details").getElement().getStyle().setBackgroundColor("#BEF781"); /* hellgrün*/
 		
 		FlowPanel menu = new FlowPanel();
-		//UnorderedListWidget menuList = new UnorderedListWidget();
 		
-		//menuList.setStyleName("menuList");
 		menu.setStyleName("menuList");
 		
-		final Button dvdAnzeigen = new Button ("Alle DVDs anzeigen");
+		final Button alleDVDAnzeigen = new Button ("Alle DVDs anzeigen");
 		final Button dvdHinzufuegen = new Button("Neue DVD hinzufügen");
 		final Button dvdSuchen = new Button("DVD suchen");
 		
-		dvdAnzeigen.setStyleName("menubutton");
-		menu.add(dvdAnzeigen);
+		alleDVDAnzeigen.setStyleName("menubutton");
+		menu.add(alleDVDAnzeigen);
 		
 		dvdHinzufuegen.setStyleName("menubutton");
 		menu.add(dvdHinzufuegen);
@@ -44,7 +42,7 @@ public class Navbar extends VerticalPanel {
 		
 		dvdHinzufuegen.addClickHandler(new DVDHinzufuegenClickHandler());
 		dvdSuchen.addClickHandler(new DVDSuchenClickHandler());
-		dvdAnzeigen.addClickHandler(new DVDAnzeigenClickHandler());
+		alleDVDAnzeigen.addClickHandler(new AlleDVDAnzeigenClickHandler());
 		
 	}
 	
@@ -68,11 +66,11 @@ public class Navbar extends VerticalPanel {
 		}
 	}
 	
-	private class DVDAnzeigenClickHandler implements ClickHandler {
+	private class AlleDVDAnzeigenClickHandler implements ClickHandler {
 
 		@Override
 		public void onClick(ClickEvent event) {
-			DVDAnzeigen anzeige = new DVDAnzeigen();
+			AlleDVDAnzeigen anzeige = new AlleDVDAnzeigen();
 			RootPanel.get("Details").clear();
 			RootPanel.get("Details").add(anzeige);
 		}

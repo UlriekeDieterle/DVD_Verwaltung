@@ -49,7 +49,7 @@ public class DVD_Projekt implements EntryPoint {
 		dvdAnzeigen.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				BasicFrame bf = new DVDAnzeigen();
+				BasicFrame bf = new AlleDVDAnzeigen();
 				Navbar nb = new Navbar();
 				RootPanel.get("Details").clear();
 				RootPanel.get("Navigator").add(nb);
