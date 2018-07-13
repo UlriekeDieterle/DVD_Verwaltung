@@ -1,10 +1,16 @@
 package dvd.verwaltung.client;
 
+import java.util.Vector;
+
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
@@ -12,6 +18,11 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 import dvd.verwaltung.shared.DVDVerwaltungAdministrationAsync;
 import dvd.verwaltung.shared.bo.DVD;
+import dvd.verwaltung.shared.bo.Genre;
+import dvd.verwaltung.shared.bo.Regisseur;
+import dvd.verwaltung.shared.bo.Schauspieler;
+import dvd.verwaltung.shared.bo.Sprache;
+import dvd.verwaltung.shared.bo.Studio;
 
 public class DVDHinzufuegen extends BasicFrame{
 
@@ -48,7 +59,7 @@ public class DVDHinzufuegen extends BasicFrame{
     TextBox laenge = new TextBox();
     
     Button confirmBtn = new Button("Weiter");
-	
+    	
 	@SuppressWarnings("deprecation")
 	@Override
 	protected void run() {
@@ -103,19 +114,20 @@ public class DVDHinzufuegen extends BasicFrame{
 
 	@Override
 	protected String getSubHeadlineText() {
-		return "Lege eine neue DVD an";
+		return null;
 	}
 
 	@Override
 	protected String getHeadlineText() {
-		return null;
+		return "Lege eine neue DVD an";
 	}
 	
 	private class ConfirmClickHandler implements ClickHandler {
 		@Override
 		public void onClick(ClickEvent event) {
-			RootPanel.get("Header").getElement().setInnerHTML("onClick");
-			createDVD();			
+			RootPanel.get("Details").clear();
+			createDVD();
+			
 		}
 	}
 
@@ -198,13 +210,14 @@ public class DVDHinzufuegen extends BasicFrame{
 		public void onSuccess(DVD result) {
 //			ClientsideSettings.getLogger().severe("DVD wurde hinzugefügt.");
 //			
-//			AlleDVDAnzeigen anzeigen = new AlleDVDAnzeigen();
+			BasicFrame belegungen = new DVDBelegungenMachen(result);
+			
 //			Navbar nb = new Navbar();
-//			RootPanel.get("Details").clear();
+			RootPanel.get("Details").clear();
 //			RootPanel.get("Navigator").add(nb);
-//			RootPanel.get("Details").add(anzeigen);
+			RootPanel.get("Details").add(belegungen);
+			
 		}
-		
 	}
 
 }

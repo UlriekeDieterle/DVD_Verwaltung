@@ -9,6 +9,10 @@
 	<welcome-file-list>
 		<welcome-file>DVD_Projekt.html</welcome-file>
 	</welcome-file-list>
+	
+	 <system-properties>
+  	 <property name="java.util.logging.config.file" value="WEB-INF/logging.properties"/>
+	 </system-properties>
     
   <!-- Servlets -->
   <servlet>

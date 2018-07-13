@@ -76,20 +76,15 @@ public interface DVDVerwaltungAdministrationAsync {
 
 	void getByGenre(String name, AsyncCallback<Vector<Genre>> callback);
 
-	void createGenreBelegung(Genre genre, DVD dvd, AsyncCallback<Genre> callback);
+	void createGenreBelegung(Vector<Genre> genre, DVD dvd, AsyncCallback<Genre> callback);
 
-	void createRegisseurBelegung(Regisseur reg, DVD dvd, AsyncCallback<Regisseur> callback);
+	void createRegisseurBelegung(Vector<Regisseur> reg, DVD dvd, AsyncCallback<Regisseur> callback);
 
-	void createSchauspielerBelegung(Schauspieler schausp, DVD dvd, AsyncCallback<Schauspieler> callback);
+	void createSchauspielerBelegung(Vector<Schauspieler> schausp, DVD dvd, AsyncCallback<Schauspieler> callback);
 
-	void createSpracheBelegung(Sprache sprache, DVD dvd, AsyncCallback<Sprache> callback);
+	void createSpracheBelegung(Vector<Sprache> sprache, Vector<Sprache> untertitel, DVD dvd, AsyncCallback<Sprache> callback);
 
-	void createUntertitelBelegung(Sprache sprache, DVD dvd, AsyncCallback<Sprache> callback);
-
-	void createStudioBelegung(Studio studio, DVD dvd, AsyncCallback<Studio> callback);
-
-	void insertDVD(DVD dvd, Genre genre, Regisseur regisseur, Sprache sprache, Schauspieler schauspieler, Studio studio,
-			AsyncCallback<Void> callback);
+	void createStudioBelegung(Vector<Studio> studio, DVD dvd, AsyncCallback<Studio> callback);
 
 	void getAllRegisseur(AsyncCallback<Vector<Regisseur>> callback);
 

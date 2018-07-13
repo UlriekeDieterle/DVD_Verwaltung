@@ -2,7 +2,6 @@ package dvd.verwaltung.server;
 
 import java.util.Vector;
 
-import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import dvd.verwaltung.server.db.*;
@@ -58,17 +57,6 @@ public class DVDVerwaltungAdministrationImpl extends RemoteServiceServlet implem
 	}
 	
 	@Override
-	public void insertDVD (DVD dvd, Genre genre, Regisseur regisseur, Sprache sprache, Schauspieler schauspieler, Studio studio)
-		throws IllegalArgumentException {
-		createGenreBelegung (genre, dvd);
-		createRegisseurBelegung (regisseur, dvd);
-		createSchauspielerBelegung (schauspieler, dvd);
-		createSpracheBelegung (sprache, dvd);
-		createUntertitelBelegung (sprache, dvd);
-		createStudioBelegung (studio, dvd);
-	}
-	
-	@Override
 	public Genre createGenre (String name) throws IllegalArgumentException {
 		Genre genre = new Genre();
 		genre.setGenre(name);
@@ -77,8 +65,11 @@ public class DVDVerwaltungAdministrationImpl extends RemoteServiceServlet implem
 	}
 	
 	@Override
-	public Genre createGenreBelegung (Genre genre, DVD dvd) throws IllegalArgumentException {
-		return genreMapper.insertGenreBelegung(dvd, genre);
+	public Genre createGenreBelegung (Vector<Genre> genre, DVD dvd) throws IllegalArgumentException {
+		for (int i = 0; i < genre.size(); i++) {
+			genreMapper.insertGenreBelegung(dvd, genre.elementAt(i));
+		}
+		return null; 
 	}
 	
 	@Override
@@ -90,8 +81,11 @@ public class DVDVerwaltungAdministrationImpl extends RemoteServiceServlet implem
 	}
 	
 	@Override
-	public Regisseur createRegisseurBelegung (Regisseur reg, DVD dvd) throws IllegalArgumentException {
-		return regisseurMapper.insertRegisseurBelegung(dvd, reg);
+	public Regisseur createRegisseurBelegung (Vector<Regisseur> reg, DVD dvd) throws IllegalArgumentException {
+		for (int i = 0; i < reg.size(); i++) {
+			regisseurMapper.insertRegisseurBelegung(dvd, reg.elementAt(i));
+		}
+		return null;
 	}
 	
 	@Override
@@ -106,8 +100,11 @@ public class DVDVerwaltungAdministrationImpl extends RemoteServiceServlet implem
 	}
 	
 	@Override
-	public Schauspieler createSchauspielerBelegung (Schauspieler schausp, DVD dvd) throws IllegalArgumentException {
-		return schauspielerMapper.insertSchauspielerBelegung(dvd, schausp);
+	public Schauspieler createSchauspielerBelegung (Vector<Schauspieler> schausp, DVD dvd) throws IllegalArgumentException {
+		for (int i = 0; i < schausp.size(); i++) {
+			schauspielerMapper.insertSchauspielerBelegung(dvd, schausp.elementAt(i));
+		}
+		return null;
 	}
 	
 	@Override
@@ -119,13 +116,15 @@ public class DVDVerwaltungAdministrationImpl extends RemoteServiceServlet implem
 	}
 	
 	@Override
-	public Sprache createSpracheBelegung (Sprache sprache, DVD dvd) throws IllegalArgumentException {
-		return spracheMapper.insertSpracheBelegung(dvd, sprache);
-	}
-	
-	@Override
-	public Sprache createUntertitelBelegung (Sprache sprache, DVD dvd) throws IllegalArgumentException {
-		return spracheMapper.insertUntertitel(dvd, sprache);
+	public Sprache createSpracheBelegung (Vector<Sprache> sprache, Vector<Sprache> untertitel, DVD dvd) throws IllegalArgumentException {
+		for (int i = 0; i < sprache.size(); i++) {
+			spracheMapper.insertSpracheBelegung(dvd, sprache.elementAt(i));
+		}
+		
+		for (int i = 0; i < untertitel.size(); i++) {
+			spracheMapper.insertUntertitel(dvd, sprache.elementAt(i));
+		}
+		return null;
 	}
 	
 	@Override
@@ -138,8 +137,11 @@ public class DVDVerwaltungAdministrationImpl extends RemoteServiceServlet implem
 	}
 	
 	@Override
-	public Studio createStudioBelegung (Studio studio, DVD dvd) throws IllegalArgumentException {
-		return studioMapper.insertStudioBelegung(dvd, studio);
+	public Studio createStudioBelegung (Vector<Studio> studio, DVD dvd) throws IllegalArgumentException {
+		for (int i = 0; i < studio.size(); i++) {
+			studioMapper.insertStudioBelegung(dvd, studio.elementAt(i));
+		}
+		return null;
 	}
 	
 	/*------------------------------------------------------------------------------------*/

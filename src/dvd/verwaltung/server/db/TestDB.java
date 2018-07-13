@@ -1,7 +1,9 @@
 package dvd.verwaltung.server.db;
 
-import java.util.ArrayList;
 
+import java.util.Vector;
+
+import dvd.verwaltung.server.DVDVerwaltungAdministrationImpl;
 import dvd.verwaltung.shared.bo.DVD;
 import dvd.verwaltung.shared.bo.Genre;
 import dvd.verwaltung.shared.bo.Regisseur;
@@ -19,6 +21,7 @@ public class TestDB {
 		SchauspielerMapper sMapper = new SchauspielerMapper();
 		SpracheMapper sprMapper = new SpracheMapper();
 		StudioMapper studMapper = new StudioMapper();
+		DVDVerwaltungAdministrationImpl klasse = new DVDVerwaltungAdministrationImpl();
 		
 		/*			Test der Mapper an sich					*/
 		
@@ -137,6 +140,38 @@ public class TestDB {
 		
 		//dMapper.deleteGenreBelegung(dvd);
 		//dMapper.deleteRegisseurBelegung(dvd);
+		
+		Vector<Genre> test = new Vector<Genre>();
+		Genre test2 = new Genre();
+		Genre test3 = new Genre();
+		Genre test4 = new Genre();
+		
+		test2.setId(2);
+		test2.setGenre("Drama");
+		
+		test3.setId(5);
+		test3.setGenre("Liebe");
+		
+		test4.setId(14);
+		test4.setGenre("Biografie");
+		test.add(test2);
+		test.add(test3);
+		test.add(test4);
+		
+		DVD testdvd = new DVD();
+		testdvd.setId(25);
+		
+		
+		createGenreBelegung(test, testdvd);
+		
+	}
+
+	private static Genre createGenreBelegung(Vector<Genre> genre, DVD dvd) {
+		GenreMapper gMapper = new GenreMapper();
+		for (int i = 0; i < genre.size(); i++) {
+			gMapper.insertGenreBelegung(dvd, genre.elementAt(i));
+		}
+		return null; 
 	}
 
 }

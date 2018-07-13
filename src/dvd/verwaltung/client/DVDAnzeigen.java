@@ -2,6 +2,7 @@ package dvd.verwaltung.client;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -27,8 +28,8 @@ public class DVDAnzeigen extends BasicFrame {
 	
 	@Override
 	protected void run() {
-//		HTML legend = new HTML();
-		
+
+		Window.alert("DVD mit der ID " + dvd.getId() + " wurde ausgewählt.");
 		bearbeiten.setEnabled(true);
 		speichern.setEnabled(false);
 		

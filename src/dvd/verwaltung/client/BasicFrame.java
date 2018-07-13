@@ -10,12 +10,10 @@ public abstract class BasicFrame extends FlowPanel {
 	public void onLoad() {
 		super.onLoad();
 		this.add(createHeadline(getHeadlineText(), getSubHeadlineText()));
-//		RootPanel.get("search-table").clear();
 		this.run();
 	}
 
 	private void add(HTML createHeadline) {
-		// TODO Auto-generated method stub
 		
 	}
 

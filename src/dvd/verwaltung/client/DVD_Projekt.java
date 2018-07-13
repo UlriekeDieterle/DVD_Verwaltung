@@ -31,17 +31,11 @@ public class DVD_Projekt implements EntryPoint {
 	@Override
 	public void onModuleLoad() {
 		DVD dvd = new DVD();
-//		
-		DVDVerwaltungAdministrationAsync dvdVerwaltung = ClientsideSettings.getDVDVerwaltung();
-//
-//		dvdVerwaltung.setDVD(dvd, new SetDVDCallback());
-//		
+	
 		HorizontalPanel navPanel = new HorizontalPanel();
 		//navPanel.setStylePrimaryName("horizontalPanel");
 //		
-//		Label test = new Label("Test2");
-//		navPanel.add(test);
-		
+	
 		final Button dvdAnzeigen = new Button("Alle DVDs anzeigen");
 		dvdAnzeigen.setStylePrimaryName("menubutton");
 		navPanel.add(dvdAnzeigen);

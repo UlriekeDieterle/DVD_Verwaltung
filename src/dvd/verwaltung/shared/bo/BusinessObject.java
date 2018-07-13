@@ -2,7 +2,7 @@ package dvd.verwaltung.shared.bo;
 
 import java.io.Serializable;
 
-public class BusinessObject implements Serializable {
+public abstract class BusinessObject implements Serializable {
 
 	/**
 	 * 

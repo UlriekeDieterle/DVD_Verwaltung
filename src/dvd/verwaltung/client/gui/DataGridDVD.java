@@ -163,4 +163,8 @@ public class DataGridDVD {
 	      
 	    }
 	}
+
+		public DVD SelectedItem() {
+			return null;
+		}
 }

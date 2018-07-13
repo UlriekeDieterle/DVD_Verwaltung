@@ -72,20 +72,15 @@ public interface DVDVerwaltungAdministration extends RemoteService {
 
 	Vector<Genre> getByGenre(String name) throws IllegalArgumentException;
 
-	Genre createGenreBelegung(Genre genre, DVD dvd) throws IllegalArgumentException;
+	Genre createGenreBelegung(Vector<Genre> genre, DVD dvd) throws IllegalArgumentException;
 
-	Regisseur createRegisseurBelegung(Regisseur reg, DVD dvd) throws IllegalArgumentException;
+	Regisseur createRegisseurBelegung(Vector<Regisseur> reg, DVD dvd) throws IllegalArgumentException;
 
-	Schauspieler createSchauspielerBelegung(Schauspieler schausp, DVD dvd) throws IllegalArgumentException;
+	Schauspieler createSchauspielerBelegung(Vector<Schauspieler> schausp, DVD dvd) throws IllegalArgumentException;
 
-	Sprache createSpracheBelegung(Sprache sprache, DVD dvd) throws IllegalArgumentException;
+	Sprache createSpracheBelegung(Vector<Sprache> sprache, Vector<Sprache> untertitel, DVD dvd) throws IllegalArgumentException;
 
-	Sprache createUntertitelBelegung(Sprache sprache, DVD dvd) throws IllegalArgumentException;
-
-	Studio createStudioBelegung(Studio studio, DVD dvd) throws IllegalArgumentException;
-
-	void insertDVD(DVD dvd, Genre genre, Regisseur regisseur, Sprache sprache, Schauspieler schauspieler, Studio studio)
-			throws IllegalArgumentException;
+	Studio createStudioBelegung(Vector<Studio> studio, DVD dvd) throws IllegalArgumentException;
 
 	Vector<Regisseur> getAllRegisseur() throws IllegalArgumentException;
 
