@@ -2,15 +2,23 @@ package dvd.verwaltung.client.gui;
 
 import java.util.Vector;
 
+import com.google.gwt.cell.client.CheckboxCell;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.DataGrid;
 import com.google.gwt.user.cellview.client.TextColumn;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.view.client.DefaultSelectionEventManager;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
 import com.google.gwt.view.client.SelectionChangeEvent.Handler;
 
+import dvd.verwaltung.client.AlleDVDAnzeigen;
 import dvd.verwaltung.client.BasicFrame;
 import dvd.verwaltung.client.ClientsideSettings;
 import dvd.verwaltung.client.DVDAnzeigen;
@@ -25,7 +33,7 @@ public class DataGridDVD {
 	public DataGrid<DVD> table = new DataGrid<DVD>();
 	private Vector<DVD> dvdListe;
 	private FlowPanel flowPanel = new FlowPanel();
-	private DVD selected = null;
+	private DVD selected = new DVD();
 
 	
 	public DataGridDVD (Vector<DVD> list) {
@@ -48,8 +56,22 @@ public class DataGridDVD {
 		this.table = table;
 	}
 	
+	final SingleSelectionModel<DVD> selectionModel = new SingleSelectionModel<DVD>();
+	Button detailsAnzeigen = new Button("DVD Details anzeigen");
+	
 	public FlowPanel start() {
 		flowPanel.setStyleName("content");
+		table.setSelectionModel(selectionModel, DefaultSelectionEventManager.<DVD> createCheckboxManager());
+		
+		Column<DVD, Boolean> checkColumn = new Column<DVD, Boolean>(new CheckboxCell(true, false)) {
+
+			@Override
+			public Boolean getValue(DVD object) {
+	            return selectionModel.isSelected(object);
+			}			
+		};
+		table.addColumn(checkColumn);
+//		table.setColumnWidth(checkColumn, 40, Unit.PX);
 		
 		TextColumn<DVD> titel = new TextColumn<DVD>() {
 			@Override
@@ -128,23 +150,25 @@ public class DataGridDVD {
 		table.setVisibleRange(0, dvdListe.size());
 		table.setRowData(0, dvdListe);
 		
+		detailsAnzeigen.addClickHandler(new SelectionChangeHandler(selectionModel));
+		
 		LayoutPanel panel = new LayoutPanel();
 		panel.setSize("1450px", "420px");
 		panel.add(table);
+		flowPanel.add(detailsAnzeigen);
 		flowPanel.add(panel);
+			
 		
 		return flowPanel;
 	}
-	
-	public void addDetailsClickHandler() {
-		final SingleSelectionModel<DVD> selectionModel = new SingleSelectionModel<DVD>();
-		table.setSelectionModel(selectionModel);
+		
+/*	public void addDetailsClickHandler() {
 		
 	    selectionModel.addSelectionChangeHandler(new SelectionChangeHandler(selectionModel));
 
-	}
+	}*/
 
-		private class SelectionChangeHandler implements Handler {
+		private class SelectionChangeHandler implements ClickHandler {
 	    private final SingleSelectionModel<DVD> selectionModel;
 
 	    private SelectionChangeHandler(SingleSelectionModel<DVD> selectionModel) {
@@ -152,19 +176,12 @@ public class DataGridDVD {
 	    }
 	    
 	    @Override
-	    public void onSelectionChange(SelectionChangeEvent event) {
+	    public void onClick(ClickEvent event) {
 	      selected = selectionModel.getSelectedObject();
 	      
-	      Navbar navbar = new Navbar();
 	      BasicFrame anzeigen = new DVDAnzeigen(selected);
 	      RootPanel.get("Details").clear();
-	      RootPanel.get("Navigator").add(navbar);
 	      RootPanel.get("Details").add(anzeigen);
-	      
 	    }
 	}
-
-		public DVD SelectedItem() {
-			return null;
-		}
 }

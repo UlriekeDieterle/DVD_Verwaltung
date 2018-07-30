@@ -4,11 +4,9 @@ import java.util.Vector;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 
 import dvd.verwaltung.client.gui.DataGridDVD;
@@ -48,7 +46,7 @@ public class AlleDVDAnzeigen extends BasicFrame {
 	}
 	
 	Button alleDVDsAnzeigen = new Button("alle DVDs anzeigen");
-	Button detailsAnzeigen = new Button("DVD Details anzeigen");
+	
 	FlowPanel contentPanel = new FlowPanel();
 	FlowPanel fPanel2 = new FlowPanel();
 		FlowPanel buttonPanel = new FlowPanel();
@@ -74,7 +72,6 @@ public class AlleDVDAnzeigen extends BasicFrame {
 
 		@Override
 		public void onClick(ClickEvent event) {
-
 			dvdVerwaltung.getAllDVDs(new AllDVDsCallback());
 		}
 	}
@@ -98,25 +95,7 @@ public class AlleDVDAnzeigen extends BasicFrame {
 
 //		dgd.addDetailsClickHandler();
 		RootPanel.get("Details").clear();
-		alleDVDsAnzeigen.setVisible(false);
-		buttonPanel.add(detailsAnzeigen);
-		RootPanel.get("Details").add(buttonPanel);
 		RootPanel.get("Details").add(dgd.start());
-		
-		detailsAnzeigen.addClickHandler(new ClickHandler(){
-
-			DataGridDVD dgd = new DataGridDVD(dvdListe);
-			@Override
-			public void onClick(ClickEvent event) {
-				DVD dvd = dgd.SelectedItem();
-				
-				Window.alert("DVD ID = " + Integer.toString(dvd.getId()));
-				BasicFrame detailsAnzeigen = new DVDAnzeigen(dvd);
-				RootPanel.get("Details").clear();
-				RootPanel.get("Details").add(detailsAnzeigen);
-			}
-			
-		});
 	}
 }
 

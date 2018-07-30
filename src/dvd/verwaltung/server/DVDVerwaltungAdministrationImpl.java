@@ -179,33 +179,33 @@ public class DVDVerwaltungAdministrationImpl extends RemoteServiceServlet implem
 	/*------------------------------------------------------------------------------------*/
 	
 	@Override
-	public void save(DVD dvd) throws IllegalArgumentException {
-		dvdMapper.update(dvd);
+	public DVD save(DVD dvd) throws IllegalArgumentException {
+		return dvdMapper.update(dvd);
 	}
 	
 	@Override
-	public void save (Genre genre) throws IllegalArgumentException {
-		genreMapper.update(genre);
+	public Genre save (Genre genre) throws IllegalArgumentException {
+		return genreMapper.update(genre);
 	}
 	
 	@Override
-	public void save (Regisseur regisseur) throws IllegalArgumentException {
-		regisseurMapper.update(regisseur);
+	public Regisseur save (Regisseur regisseur) throws IllegalArgumentException {
+		return regisseurMapper.update(regisseur);
 	}
 	
 	@Override
-	public void save (Schauspieler schauspieler) throws IllegalArgumentException {
-		schauspielerMapper.update(schauspieler);
+	public Schauspieler save (Schauspieler schauspieler) throws IllegalArgumentException {
+		return schauspielerMapper.update(schauspieler);
 	}
 	
 	@Override
-	public void save (Sprache sprache) throws IllegalArgumentException {
-		spracheMapper.update(sprache);
+	public Sprache save (Sprache sprache) throws IllegalArgumentException {
+		return spracheMapper.update(sprache);
 	}
 	
 	@Override
-	public void save (Studio studio) throws IllegalArgumentException {
-		studioMapper.update(studio);
+	public Studio save (Studio studio) throws IllegalArgumentException {
+		return studioMapper.update(studio);
 	}
 	
 	/*------------------------------------------------------------------------------------*/

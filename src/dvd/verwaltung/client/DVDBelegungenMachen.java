@@ -7,8 +7,11 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import dvd.verwaltung.shared.DVDVerwaltungAdministrationAsync;
@@ -27,7 +30,16 @@ public class DVDBelegungenMachen extends BasicFrame{
 		ListBox studioLB = new ListBox();
 			
 		Vector<Sprache> untertitelVec = new Vector<Sprache>();
+		TextBox tbReg = new TextBox();
+		TextBox tbSpVorname = new TextBox();
+		TextBox tbSpNachname = new TextBox();
+		TextBox tbSpGeburtsjahr = new TextBox();
+		TextBox tbSpNationalitaet = new TextBox();
+		TextBox tbStdName = new TextBox();
+		TextBox tbStdSitz = new TextBox();
 		
+		 VerticalPanel neuerContent = new VerticalPanel();
+		 HorizontalPanel horPanel = new HorizontalPanel();
 		VerticalPanel vpanel = new VerticalPanel();		
 		DVD dvd = new DVD();
 		
@@ -129,6 +141,9 @@ class GenreCallback implements AsyncCallback<Vector<Genre>> {
 		public void onSuccess(Vector<Regisseur> result) {
 			RootPanel.get("Details").clear();
 			Button weiter = new Button("Weiter");
+			Button regisseurNeu = new Button("Neuen Regisseur hinzufügen");
+			neuerContent.clear();
+			regisseurLB.clear();
 			regisseurLB.setVisibleItemCount(5);
 			regisseurLB.setMultipleSelect(true);
 				
@@ -139,9 +154,45 @@ class GenreCallback implements AsyncCallback<Vector<Genre>> {
 			belegungen.clear();
 			belegungen.setText(0, 0, "Regisseur");
 			belegungen.setWidget(1, 0, regisseurLB);
-			belegungen.setWidget(2, 1, weiter);
+			belegungen.setWidget(2, 1, regisseurNeu);
+			belegungen.setWidget(4, 1, weiter);
 			vpanel.add(belegungen);
-			RootPanel.get("Details").add(vpanel);
+			horPanel.add(vpanel);
+			
+			RootPanel.get("Details").add(horPanel);
+			
+			regisseurNeu.addClickHandler(new ClickHandler() {
+
+				@Override
+				public void onClick(ClickEvent event) {
+					
+					Label labReg = new Label("Name des Regisseurs");
+					Button hinzufuegen = new Button("Hinzufügen");
+					
+					neuerContent.add(labReg);
+					neuerContent.add(tbReg);
+					neuerContent.add(hinzufuegen);
+					
+					horPanel.add(neuerContent);
+					
+					hinzufuegen.addClickHandler(new ClickHandler() {
+					@Override
+					public void onClick(ClickEvent event) {
+					dvdVerwaltung.createRegisseur(tbReg.getText(), new AsyncCallback<Regisseur>() {
+
+						@Override
+						public void onFailure(Throwable caught) {}
+
+						@Override
+						public void onSuccess(Regisseur result) {
+							
+							dvdVerwaltung.getAllRegisseur(new RegisseurCallback());
+						}
+					});
+					}
+					});		
+				}
+			});
 		
 			weiter.addClickHandler(new ClickHandler() {
 
@@ -195,7 +246,10 @@ class GenreCallback implements AsyncCallback<Vector<Genre>> {
 		public void onSuccess(Vector<Schauspieler> result) {
 			String schausp = null;
 			Button weiter = new Button("Weiter");
-			schauspielerLB.setVisibleItemCount(10);
+			Button schauspielerNeu = new Button("neuen Schauspieler hinzufügen");
+			neuerContent.clear();
+			schauspielerLB.clear();
+			schauspielerLB.setVisibleItemCount(15);
 			schauspielerLB.setMultipleSelect(true);
 			
 			for( int i = 0; i < result.size(); i++) {
@@ -207,10 +261,55 @@ class GenreCallback implements AsyncCallback<Vector<Genre>> {
 			belegungen.clear();
 			belegungen.setText(0, 0, "Schauspieler");
 			belegungen.setWidget(1, 0, schauspielerLB);
-			belegungen.setWidget(2, 1, weiter);
+			belegungen.setWidget(2, 1, schauspielerNeu);
+			belegungen.setWidget(4, 1, weiter);
 			RootPanel.get("Details").clear();
 			vpanel.add(belegungen);
-			RootPanel.get("Details").add(vpanel);
+			horPanel.add(vpanel);
+			
+			RootPanel.get("Details").add(horPanel);
+			
+			
+			schauspielerNeu.addClickHandler(new ClickHandler() {
+
+				@Override
+				public void onClick(ClickEvent event) {
+					
+					Label labVorname = new Label("Vorname");
+					Label labNachname = new Label("Nachname");
+					Label labGebjahr = new Label("Geburtsjahr");
+					Label labNational = new Label("Nationalität");
+					Button hinzufuegen = new Button("Hinzufügen");
+					
+					neuerContent.add(labVorname);
+					neuerContent.add(tbSpVorname);
+					neuerContent.add(labNachname);
+					neuerContent.add(tbSpNachname);
+					neuerContent.add(labGebjahr);
+					neuerContent.add(tbSpGeburtsjahr);
+					neuerContent.add(labNational);
+					neuerContent.add(tbSpNationalitaet);
+					neuerContent.add(hinzufuegen);
+					
+					horPanel.add(neuerContent);
+					
+					hinzufuegen.addClickHandler(new ClickHandler() {
+					@Override
+					public void onClick(ClickEvent event) {
+					dvdVerwaltung.createSchauspieler(tbSpVorname.getText(), tbSpNachname.getText(), Integer.parseInt(tbSpGeburtsjahr.getText()),tbSpNationalitaet.getText(), new AsyncCallback<Schauspieler>() {
+
+						@Override
+						public void onFailure(Throwable caught) {}
+
+						@Override
+						public void onSuccess(Schauspieler result) {
+							dvdVerwaltung.getAllSchauspieler(new SchauspielerCallback());
+						}
+					});
+					}
+					});		
+				}
+			});
 			
 			weiter.addClickHandler(new ClickHandler() {
 
@@ -356,6 +455,9 @@ class GenreCallback implements AsyncCallback<Vector<Genre>> {
 		@Override
 		public void onSuccess(Vector<Studio> result) {
 			Button weiter = new Button("Absenden");
+			Button studioNeu = new Button("Produktionsstudio hinzufügen");
+			neuerContent.clear();
+			studioLB.clear();
 			studioLB.setVisibleItemCount(5);
 			studioLB.setMultipleSelect(true);
 			
@@ -367,10 +469,49 @@ class GenreCallback implements AsyncCallback<Vector<Genre>> {
 			belegungen.clear();
 			belegungen.setText(0, 0, "Produktionsstudio");
 			belegungen.setWidget(1, 0, studioLB);
-			belegungen.setWidget(2, 1, weiter);
+			belegungen.setWidget(2, 1, studioNeu);
+			belegungen.setWidget(4, 1, weiter);
 			RootPanel.get("Details").clear();
 			vpanel.add(belegungen);
-			RootPanel.get("Details").add(vpanel);
+			horPanel.add(vpanel);
+			
+			RootPanel.get("Details").add(horPanel);
+			
+			studioNeu.addClickHandler(new ClickHandler() {
+
+				@Override
+				public void onClick(ClickEvent event) {
+					
+					Label labName = new Label("Name");
+					Label labSitz = new Label("Sitz/Land");
+					Button hinzufuegen = new Button("Hinzufügen");
+					
+					neuerContent.add(labName);
+					neuerContent.add(tbStdName);
+					neuerContent.add(labSitz);
+					neuerContent.add(tbStdSitz);
+					
+					neuerContent.add(hinzufuegen);
+					
+					horPanel.add(neuerContent);
+					
+					hinzufuegen.addClickHandler(new ClickHandler() {
+					@Override
+					public void onClick(ClickEvent event) {
+					dvdVerwaltung.createStudio(tbStdName.getText(), tbStdSitz.getText(), new AsyncCallback<Studio>() {
+
+						@Override
+						public void onFailure(Throwable caught) {}
+
+						@Override
+						public void onSuccess(Studio result) {
+							dvdVerwaltung.getAllStudio(new StudioCallback());
+						}
+					});
+					}
+					});		
+				}
+			});
 		
 			weiter.addClickHandler(new ClickHandler() {
 

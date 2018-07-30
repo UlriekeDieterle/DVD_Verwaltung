@@ -1,28 +1,19 @@
 package dvd.verwaltung.client;
 
-import java.util.Vector;
 
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import dvd.verwaltung.shared.DVDVerwaltungAdministrationAsync;
 import dvd.verwaltung.shared.bo.DVD;
-import dvd.verwaltung.shared.bo.Genre;
-import dvd.verwaltung.shared.bo.Regisseur;
-import dvd.verwaltung.shared.bo.Schauspieler;
-import dvd.verwaltung.shared.bo.Sprache;
-import dvd.verwaltung.shared.bo.Studio;
 
 public class DVDHinzufuegen extends BasicFrame{
 
@@ -50,7 +41,7 @@ public class DVDHinzufuegen extends BasicFrame{
     RadioButton artDVD10 = new RadioButton("ArtderDVD", "FR Import");
     
     
-    TextBox beschreibung = new TextBox();
+    TextArea beschreibung = new TextArea();
     TextBox anzahlDisc = new TextBox();
     TextBox stichwort = new TextBox();  
     TextBox titel = new TextBox();
@@ -70,6 +61,7 @@ public class DVDHinzufuegen extends BasicFrame{
 				
 	    fsk0.setChecked(true);
 	    serieFilm.setChecked(true);
+	    
 	    
 	    flextable.setText(0, 0, "Titel der DVD");
 	    flextable.setWidget(0, 1, titel);
@@ -157,7 +149,7 @@ public class DVDHinzufuegen extends BasicFrame{
 		
 		if(serieFilm.getValue() == true) {
 			filmSerie = "Serie";
-		} else if (serieFilm.getValue() == true) {
+		} else if (serieFilm2.getValue() == true) {
 			filmSerie = "Spielfilm";
 		}
 		

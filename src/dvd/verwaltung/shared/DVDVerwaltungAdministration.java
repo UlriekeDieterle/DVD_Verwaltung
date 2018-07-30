@@ -23,15 +23,15 @@ public interface DVDVerwaltungAdministration extends RemoteService {
 
 	void delete (DVD dvd) throws IllegalArgumentException;
 
-	void save(Genre genre) throws IllegalArgumentException;
+	Genre save(Genre genre) throws IllegalArgumentException;
 
-	void save(Regisseur regisseur) throws IllegalArgumentException;
+	Regisseur save(Regisseur regisseur) throws IllegalArgumentException;
 
-	void save(Schauspieler schauspieler) throws IllegalArgumentException;
+	Schauspieler save(Schauspieler schauspieler) throws IllegalArgumentException;
 
-	void save(Sprache sprache) throws IllegalArgumentException;
+	Sprache save(Sprache sprache) throws IllegalArgumentException;
 
-	void save(Studio studio) throws IllegalArgumentException;
+	Studio save(Studio studio) throws IllegalArgumentException;
 
 	void delete(Studio studio) throws IllegalArgumentException;
 
@@ -112,7 +112,7 @@ public interface DVDVerwaltungAdministration extends RemoteService {
 
 	Vector<DVD> getByLaenge(int laenge, Auswahl auswahl) throws IllegalArgumentException;
 
-	void save(DVD dvd) throws IllegalArgumentException;
+	DVD save(DVD dvd) throws IllegalArgumentException;
 
 	Vector<DVD> getAllDVDs() throws IllegalArgumentException;
 	

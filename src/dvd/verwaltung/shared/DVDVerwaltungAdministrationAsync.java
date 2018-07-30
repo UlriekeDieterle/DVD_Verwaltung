@@ -30,17 +30,17 @@ public interface DVDVerwaltungAdministrationAsync {
 
 	void delete (DVD dvd, AsyncCallback<Void> callback);
 
-	void save(DVD dvd, AsyncCallback<Void> callback);
+	void save(DVD dvd, AsyncCallback<DVD> callback);
 
-	void save(Genre genre, AsyncCallback<Void> callback);
+	void save(Genre genre, AsyncCallback<Genre> callback);
 
-	void save(Regisseur regisseur, AsyncCallback<Void> callback);
+	void save(Regisseur regisseur, AsyncCallback<Regisseur> callback);
 
-	void save(Schauspieler schauspieler, AsyncCallback<Void> callback);
+	void save(Schauspieler schauspieler, AsyncCallback<Schauspieler> callback);
 
-	void save(Sprache sprache, AsyncCallback<Void> callback);
+	void save(Sprache sprache, AsyncCallback<Sprache> callback);
 
-	void save(Studio studio, AsyncCallback<Void> callback);
+	void save(Studio studio, AsyncCallback<Studio> callback);
 
 	void delete(Studio studio, AsyncCallback<Void> callback);
 
