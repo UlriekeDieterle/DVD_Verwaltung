@@ -220,4 +220,14 @@ public class SchauspielerMapper {
 		}		
 		return result;
 	}
+
+	public void deleteSchauspielerBelegung(DVD dvd) {
+		Connection con = DBConnection.connection();
+		try {
+			Statement stmt = con.createStatement();
+			stmt.executeUpdate("DELETE FROM darsteller_belegung WHERE DVD_ID = " + dvd.getId());
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}		
+	}
 }

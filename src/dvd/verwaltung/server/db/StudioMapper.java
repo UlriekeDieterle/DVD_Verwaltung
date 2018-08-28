@@ -179,4 +179,14 @@ public class StudioMapper {
 		}		
 		return result;
 	}
+
+	public void deleteStudioBelegung(DVD dvd) {
+		Connection con = DBConnection.connection();
+		try {
+			Statement stmt = con.createStatement();
+			stmt.executeUpdate("DELETE FROM studio_belegung WHERE DVD_ID = " + dvd.getId());
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}	
+	}
 }

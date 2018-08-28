@@ -134,4 +134,16 @@ public interface DVDVerwaltungAdministration extends RemoteService {
 
 	DVD getDVD() throws IllegalArgumentException;
 
+	Vector<Genre> updateGenreBelegung(Vector<Genre> genre, DVD dvd) throws IllegalArgumentException;
+
+	Vector<Regisseur> updateRegisseurBelegung(Vector<Regisseur> regisseur, DVD dvd) throws IllegalArgumentException;
+
+	Vector<Schauspieler> updateSchauspielerBelegung(Vector<Schauspieler> schauspieler, DVD dvd)
+			throws IllegalArgumentException;
+
+	Vector<Sprache> updateSprachenBelegung(Vector<Sprache> sprache, Vector<Sprache> untertitel, DVD dvd)
+			throws IllegalArgumentException;
+
+	Vector<Studio> updateStudioBelegung(Vector<Studio> studio, DVD dvd) throws IllegalArgumentException;
+
 }

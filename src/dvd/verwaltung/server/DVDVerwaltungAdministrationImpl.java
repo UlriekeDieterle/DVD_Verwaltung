@@ -122,7 +122,7 @@ public class DVDVerwaltungAdministrationImpl extends RemoteServiceServlet implem
 		}
 		
 		for (int i = 0; i < untertitel.size(); i++) {
-			spracheMapper.insertUntertitel(dvd, sprache.elementAt(i));
+			spracheMapper.insertUntertitel(dvd, untertitel.elementAt(i));
 		}
 		return null;
 	}
@@ -206,6 +206,44 @@ public class DVDVerwaltungAdministrationImpl extends RemoteServiceServlet implem
 	@Override
 	public Studio save (Studio studio) throws IllegalArgumentException {
 		return studioMapper.update(studio);
+	}
+	
+	@Override
+	public Vector<Genre> updateGenreBelegung (Vector<Genre> genre, DVD dvd) throws IllegalArgumentException {
+		genreMapper.deleteGenreBelegung(dvd);
+		createGenreBelegung(genre, dvd);
+		return genre;
+	}
+	
+	@Override
+	public Vector<Regisseur> updateRegisseurBelegung (Vector<Regisseur> regisseur, DVD dvd) throws IllegalArgumentException {
+		regisseurMapper.deleteRegisseurBelegung(dvd);
+		createRegisseurBelegung(regisseur, dvd);
+		return regisseur;
+	}
+	
+	@Override
+	public Vector<Schauspieler> updateSchauspielerBelegung (Vector<Schauspieler> schauspieler, DVD dvd) throws IllegalArgumentException {
+		schauspielerMapper.deleteSchauspielerBelegung(dvd);
+		createSchauspielerBelegung(schauspieler, dvd);
+		return schauspieler;
+	}
+	
+	@Override
+	public Vector<Sprache> updateSprachenBelegung (Vector<Sprache> sprache, Vector<Sprache> untertitel, DVD dvd) throws IllegalArgumentException {
+		spracheMapper.deleteSprachenBelegung(dvd);
+		spracheMapper.deleteUntertitelBelegung(dvd);
+		createSpracheBelegung(sprache, untertitel, dvd);
+		
+		return null;
+	}
+	
+	@Override
+	public Vector<Studio> updateStudioBelegung (Vector<Studio> studio, DVD dvd) throws IllegalArgumentException {
+		studioMapper.deleteStudioBelegung(dvd);
+		createStudioBelegung(studio, dvd);
+		
+		return studio;
 	}
 	
 	/*------------------------------------------------------------------------------------*/

@@ -215,4 +215,24 @@ public class SpracheMapper {
 		}		
 		return result;
 	}
+
+	public void deleteUntertitelBelegung(DVD dvd) {
+		Connection con = DBConnection.connection();
+		try {
+			Statement stmt = con.createStatement();
+			stmt.executeUpdate("DELETE FROM untertitel WHERE DVD_ID = " + dvd.getId());
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}	
+	}
+
+	public void deleteSprachenBelegung(DVD dvd) {
+		Connection con = DBConnection.connection();
+		try {
+			Statement stmt = con.createStatement();
+			stmt.executeUpdate("DELETE FROM gesprochene_sprache WHERE DVD_ID = " + dvd.getId());
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}		
+	}
 }

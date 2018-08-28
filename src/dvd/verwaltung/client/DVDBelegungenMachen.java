@@ -4,13 +4,19 @@ import java.util.Vector;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.SuggestBox;
+import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -29,7 +35,6 @@ public class DVDBelegungenMachen extends BasicFrame{
 		ListBox untertitelLB = new ListBox();
 		ListBox studioLB = new ListBox();
 			
-		Vector<Sprache> untertitelVec = new Vector<Sprache>();
 		TextBox tbReg = new TextBox();
 		TextBox tbSpVorname = new TextBox();
 		TextBox tbSpNachname = new TextBox();
@@ -41,8 +46,8 @@ public class DVDBelegungenMachen extends BasicFrame{
 		 VerticalPanel neuerContent = new VerticalPanel();
 		 HorizontalPanel horPanel = new HorizontalPanel();
 		VerticalPanel vpanel = new VerticalPanel();		
-		DVD dvd = new DVD();
-		
+		DVD dvd = new DVD();	
+		Vector<Regisseur> alleReg = new Vector<Regisseur>();
 	
 	public DVDBelegungenMachen(DVD result) {
 		dvd = result;
@@ -142,57 +147,149 @@ class GenreCallback implements AsyncCallback<Vector<Genre>> {
 			RootPanel.get("Details").clear();
 			Button weiter = new Button("Weiter");
 			Button regisseurNeu = new Button("Neuen Regisseur hinzufügen");
+			MultiWordSuggestOracle suggestBoxContent = new MultiWordSuggestOracle();
+			alleReg = result;
+			
 			neuerContent.clear();
 			regisseurLB.clear();
-			regisseurLB.setVisibleItemCount(5);
+			regisseurLB.setVisibleItemCount(10);
 			regisseurLB.setMultipleSelect(true);
 				
 			for(int i = 0; i < result.size(); i++ ) {
 				regisseurLB.addItem(result.elementAt(i).getRegisseur(), Integer.toString(result.elementAt(i).getId()));
+				suggestBoxContent.add(result.elementAt(i).getRegisseur());
 			}
-			
+				
+			SuggestBox suggestBox = new SuggestBox(suggestBoxContent);
+
 			belegungen.clear();
 			belegungen.setText(0, 0, "Regisseur");
-			belegungen.setWidget(1, 0, regisseurLB);
-			belegungen.setWidget(2, 1, regisseurNeu);
-			belegungen.setWidget(4, 1, weiter);
+			belegungen.setWidget(1, 0, suggestBox);
+//			belegungen.setWidget(1, 1, auswaehlen);
+			belegungen.setWidget(2, 0, regisseurLB);
+			belegungen.setWidget(4, 1, regisseurNeu);
+			belegungen.setWidget(5, 1, weiter);
 			vpanel.add(belegungen);
 			horPanel.add(vpanel);
 			
 			RootPanel.get("Details").add(horPanel);
 			
+			suggestBox.addSelectionHandler(new SelectionHandler<SuggestOracle.Suggestion>() {
+				public void onSelection(SelectionEvent selectionEvent) {
+//					Button auswaehlen = new Button ("Auswählen");
+//					test = selectionEvent.getSelectedItem().toString();
+					Window.alert(selectionEvent.getSelectedItem().toString());
+					for(int i = 0; i < regisseurLB.getItemCount(); i++) {
+						Window.alert("Regisseur " + i);
+					if(selectionEvent.getSelectedItem().equals(alleReg.elementAt(i))) {
+						Window.alert("Selektiertes Item: " + regisseurLB.getValue(i));
+					}
+					}
+					
+//					selectionEvent.getSelectedItem().
+//					Window.alert(test);
+//					belegungen.setWidget(1, 1, auswaehlen);
+/*					auswaehlen.addClickHandler(new ClickHandler() {
+
+						@Override
+						public void onClick(ClickEvent event) {
+							for(int i = 0; i < regisseurLB.getItemCount(); i++) {
+//								String itemText = selectionEvent.getSelectedItem().toString();
+								Window.alert(test);
+									if (test.equals(regisseurLB.getItemText(i))) {
+										regisseurLB.setItemSelected(i, true);
+										break;
+									}
+							}
+						}
+						
+					});*/
+				}
+			});
+			
+			
+			
+		/*	auswaehlen.addClickHandler(new ClickHandler() {
+
+				@SuppressWarnings("unchecked")
+				@Override
+				public void onClick(ClickEvent event) {
+					suggestBox.addSelectionHandler(new SelectionHandler() {
+
+						@SuppressWarnings("rawtypes")
+						@Override
+						public void onSelection(SelectionEvent event) {
+							for(int i = 0; i < regisseurLB.getItemCount(); i++) {
+								String itemText = event.getSelectedItem().toString();
+								if (itemText.equals(regisseurLB.getItemText(i))) {
+									regisseurLB.setItemSelected(i, true);
+									break;
+								}
+							}
+						}
+					});
+					
+				}
+				
+			});*/
+			
 			regisseurNeu.addClickHandler(new ClickHandler() {
 
 				@Override
 				public void onClick(ClickEvent event) {
-					
-					Label labReg = new Label("Name des Regisseurs");
-					Button hinzufuegen = new Button("Hinzufügen");
-					
-					neuerContent.add(labReg);
-					neuerContent.add(tbReg);
-					neuerContent.add(hinzufuegen);
-					
-					horPanel.add(neuerContent);
-					
-					hinzufuegen.addClickHandler(new ClickHandler() {
-					@Override
-					public void onClick(ClickEvent event) {
-					dvdVerwaltung.createRegisseur(tbReg.getText(), new AsyncCallback<Regisseur>() {
+					regisseurHinzufuegen();
+				}
 
+				private void regisseurHinzufuegen() {
+								
+						Label labReg = new Label("Name des Regisseurs");
+						Button hinzufuegen = new Button("Hinzufügen");
+						
+						neuerContent.clear();
+						neuerContent.add(labReg);
+						neuerContent.add(tbReg);
+						neuerContent.add(hinzufuegen);
+						
+						horPanel.add(neuerContent);
+						
+						hinzufuegen.addClickHandler(new ClickHandler() {
 						@Override
-						public void onFailure(Throwable caught) {}
+						public void onClick(ClickEvent event) {
+							Boolean regVorhanden = false;
+							if (tbReg.getText().isEmpty()) {
+								Window.alert("Bitte gib den Namen eines Regisseurs ein");
+							} else {
+								int i = 0;
+								 // Überprüfen, ob der Regisseur bereits vorhanden ist
+								while (i < regisseurLB.getItemCount()) {
+									if(tbReg.getText().compareTo(regisseurLB.getItemText(i)) == 0) {
+										Window.alert("Dieser Regisseur ist bereits vorhanden, bitte füge einen neuen hinzu");
+										tbReg.setText("");
+										regVorhanden = true;
+										regisseurHinzufuegen();
+									}
+									
+									i++;
+								} if(regVorhanden == false) {
+									
+								dvdVerwaltung.createRegisseur(tbReg.getText(), new AsyncCallback<Regisseur>() {
 
-						@Override
-						public void onSuccess(Regisseur result) {
-							
-							dvdVerwaltung.getAllRegisseur(new RegisseurCallback());
+									@Override
+									public void onFailure(Throwable caught) {}
+
+									@Override
+									public void onSuccess(Regisseur result) {
+										tbReg.setText("");
+										dvdVerwaltung.getAllRegisseur(new RegisseurCallback());
+									}
+								});
+								}
+							}
 						}
-					});
-					}
-					});		
+						});						
 				}
 			});
+			
 		
 			weiter.addClickHandler(new ClickHandler() {
 
@@ -274,13 +371,17 @@ class GenreCallback implements AsyncCallback<Vector<Genre>> {
 
 				@Override
 				public void onClick(ClickEvent event) {
-					
+					schauspHinzufuegen();	
+				}
+				
+				private void schauspHinzufuegen() {
 					Label labVorname = new Label("Vorname");
 					Label labNachname = new Label("Nachname");
 					Label labGebjahr = new Label("Geburtsjahr");
 					Label labNational = new Label("Nationalität");
 					Button hinzufuegen = new Button("Hinzufügen");
 					
+					neuerContent.clear();
 					neuerContent.add(labVorname);
 					neuerContent.add(tbSpVorname);
 					neuerContent.add(labNachname);
@@ -296,18 +397,53 @@ class GenreCallback implements AsyncCallback<Vector<Genre>> {
 					hinzufuegen.addClickHandler(new ClickHandler() {
 					@Override
 					public void onClick(ClickEvent event) {
-					dvdVerwaltung.createSchauspieler(tbSpVorname.getText(), tbSpNachname.getText(), Integer.parseInt(tbSpGeburtsjahr.getText()),tbSpNationalitaet.getText(), new AsyncCallback<Schauspieler>() {
+						
+						Boolean schauspVorhanden = false;
+						String schauspieler = tbSpVorname.getText() + " " + tbSpNachname.getText();
+						if (tbSpVorname.getText().isEmpty() || tbSpNachname.getText().isEmpty()) {
+							Window.alert("Bitte gib den Namen eines Schauspielers ein");
+						} else {
+							int i = 0;
+							 // Überprüfen, ob der Regisseur bereits vorhanden ist
+							while (i < schauspielerLB.getItemCount()) {
+								
+								if(schauspieler.compareTo(schauspielerLB.getItemText(i)) == 0) {
+									Window.alert("Dieser Schauspieler ist bereits vorhanden, bitte füge einen neuen hinzu");
+									tbSpVorname.setText("");
+									tbSpNachname.setText("");
+									tbSpGeburtsjahr.setText("");
+									tbSpNationalitaet.setText("");
+									schauspVorhanden = true;
+									schauspHinzufuegen();
+								}
+								
+								i++;
+							} if(schauspVorhanden == false) {
+								if(Integer.parseInt(tbSpGeburtsjahr.getValue()) >= 1850 && Integer.parseInt(tbSpGeburtsjahr.getValue()) <= 2500) {						
+									dvdVerwaltung.createSchauspieler(tbSpVorname.getText(), tbSpNachname.getText(), Integer.parseInt(tbSpGeburtsjahr.getText()),tbSpNationalitaet.getText(), new AsyncCallback<Schauspieler>() {
 
-						@Override
-						public void onFailure(Throwable caught) {}
+										@Override
+										public void onFailure(Throwable caught) {}
 
-						@Override
-						public void onSuccess(Schauspieler result) {
-							dvdVerwaltung.getAllSchauspieler(new SchauspielerCallback());
-						}
-					});
+										@Override
+										public void onSuccess(Schauspieler result) {
+											tbSpVorname.setText("");
+											tbSpNachname.setText("");
+											tbSpGeburtsjahr.setText("");
+											tbSpNationalitaet.setText("");
+											dvdVerwaltung.getAllSchauspieler(new SchauspielerCallback());
+										}
+									});
+								} else {
+									Window.alert("Bitte gib ein gültiges Geburtsjahr ein, zwischen 1850 und 2500.");
+									tbSpGeburtsjahr.setText("");
+									schauspHinzufuegen();
+									
+								}
+							}
+								}
 					}
-					});		
+							});	
 				}
 			});
 			
@@ -456,9 +592,8 @@ class GenreCallback implements AsyncCallback<Vector<Genre>> {
 		public void onSuccess(Vector<Studio> result) {
 			Button weiter = new Button("Absenden");
 			Button studioNeu = new Button("Produktionsstudio hinzufügen");
-			neuerContent.clear();
 			studioLB.clear();
-			studioLB.setVisibleItemCount(5);
+			studioLB.setVisibleItemCount(10);
 			studioLB.setMultipleSelect(true);
 			
 				
@@ -467,10 +602,13 @@ class GenreCallback implements AsyncCallback<Vector<Genre>> {
 			}
 			
 			belegungen.clear();
+			horPanel.clear();
 			belegungen.setText(0, 0, "Produktionsstudio");
 			belegungen.setWidget(1, 0, studioLB);
 			belegungen.setWidget(2, 1, studioNeu);
 			belegungen.setWidget(4, 1, weiter);
+			belegungen.setText(4, 0, "");
+
 			RootPanel.get("Details").clear();
 			vpanel.add(belegungen);
 			horPanel.add(vpanel);
@@ -481,11 +619,16 @@ class GenreCallback implements AsyncCallback<Vector<Genre>> {
 
 				@Override
 				public void onClick(ClickEvent event) {
+					studioHinzufuegen();
+				}
+				
+				public void studioHinzufuegen() {
 					
 					Label labName = new Label("Name");
 					Label labSitz = new Label("Sitz/Land");
 					Button hinzufuegen = new Button("Hinzufügen");
 					
+					neuerContent.clear();
 					neuerContent.add(labName);
 					neuerContent.add(tbStdName);
 					neuerContent.add(labSitz);
@@ -498,16 +641,36 @@ class GenreCallback implements AsyncCallback<Vector<Genre>> {
 					hinzufuegen.addClickHandler(new ClickHandler() {
 					@Override
 					public void onClick(ClickEvent event) {
-					dvdVerwaltung.createStudio(tbStdName.getText(), tbStdSitz.getText(), new AsyncCallback<Studio>() {
-
-						@Override
-						public void onFailure(Throwable caught) {}
-
-						@Override
-						public void onSuccess(Studio result) {
-							dvdVerwaltung.getAllStudio(new StudioCallback());
+						Boolean studioVorhanden = false;
+						if (tbStdName.getText().isEmpty()) {
+							Window.alert("Bitte gib den Namen eines Produktionsstudios ein");
+						} else {
+							int i = 0;
+							 // Überprüfen, ob das Studio bereits vorhanden ist
+							while (i < studioLB.getItemCount()) {
+								if(tbStdName.getText().compareTo(studioLB.getItemText(i)) == 0) {
+									Window.alert("Dieses Produktionsstudio ist bereits vorhanden, bitte füge ein neues hinzu");
+									tbStdName.setText("");
+									studioVorhanden = true;
+									studioHinzufuegen();
+								}
+								
+								i++;
+							} if(studioVorhanden == false) {				
+								dvdVerwaltung.createStudio(tbStdName.getText(), tbStdSitz.getText(), new AsyncCallback<Studio>() {
+			
+									@Override
+									public void onFailure(Throwable caught) {}
+			
+									@Override
+									public void onSuccess(Studio result) {
+										tbStdName.setText("");
+										tbStdSitz.setText("");
+										dvdVerwaltung.getAllStudio(new StudioCallback());
+									}
+								});
+							}
 						}
-					});
 					}
 					});		
 				}
@@ -533,13 +696,7 @@ class GenreCallback implements AsyncCallback<Vector<Genre>> {
 //							Window.alert("Selektierter Index: " + Integer.toString(i));
 //							System.out.println(genreVec);
 						}	
-//						Window.alert("Jeder einzelne Index: " + Integer.toString(i));						
 					}
-					
-	/*				for(int j = 0; j < genreVec.size(); j++) {
-						Window.alert("Element in der Liste: " + Integer.toString(genreVec.elementAt(j).getId()) + " " + genreVec.elementAt(j).getGenre());
-					}*/
-						//	RootPanel.get("Details").clear();
 						
 					dvdVerwaltung.createStudioBelegung(studioVec, dvd, new AsyncCallback<Studio>(){
 							@Override

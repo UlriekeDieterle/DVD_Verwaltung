@@ -131,8 +131,10 @@ public class GenreMapper {
 			e.printStackTrace();
 		}
 		
-		return null;		//muss noch geklärt werden, was und wie zurückgeben
+		return genre;		
 	}
+	
+	
 	
 	public Genre update (Genre genre) {
 		Connection con = DBConnection.connection();
@@ -147,23 +149,16 @@ public class GenreMapper {
 		return genre;
 	}
 	
-	/*public Genre updateGenreBelegung (DVD dvd, ArrayList<Genre> genre) {
-		Connection con = DBConnection.connection();
+	public Vector<Genre> updateGenreBelegung (DVD dvd, Vector<Genre> genre) {
 		
-		try{
-			Statement stmt = con.createStatement();
-			
-			for( Genre g : genre) { //SQL Abfrage klären wegen Update anstatt von Insert
-				stmt.executeUpdate("INSERT INTO genre_belegung (DVD_ID, Genre_ID) SELECT dvd.DVD_ID, genre.Genre_ID"
-						+ " FROM dvd, genre WHERE dvd.DVD_ID = " + dvd.getId() +  " AND genre.Genre_ID = " + g.getId());
-				
-			}
-		} catch(SQLException e) {
-			e.printStackTrace();
+		deleteGenreBelegung(dvd);
+		
+		for(int i = 0; i < genre.size(); i++) {
+			insertGenreBelegung(dvd, genre.elementAt(i));
 		}
 		
-		return null;		//muss noch geklärt werden, was und wie zurückgeben 
-	}*/
+		return genre;		
+	}
 	
 	public void delete (Genre genre) {
 		Connection con = DBConnection.connection();
@@ -171,6 +166,16 @@ public class GenreMapper {
 			Statement stmt = con.createStatement();
 			stmt.executeUpdate("DELETE FROM genre_belegung WHERE Genre_ID = " + genre.getId());
 			stmt.executeUpdate("DELETE FROM genre WHERE Genre_ID = " + genre.getId());
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void deleteGenreBelegung (DVD dvd) {
+		Connection con = DBConnection.connection();
+		try {
+			Statement stmt = con.createStatement();
+			stmt.executeUpdate("DELETE FROM genre_belegung WHERE DVD_ID = " + dvd.getId());
 		} catch(SQLException e) {
 			e.printStackTrace();
 		}

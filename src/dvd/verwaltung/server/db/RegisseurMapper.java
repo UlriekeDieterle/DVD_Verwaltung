@@ -173,4 +173,14 @@ public class RegisseurMapper {
 		}		
 		return result;
 	}
+
+	public void deleteRegisseurBelegung(DVD dvd) {
+		Connection con = DBConnection.connection();
+		try {
+			Statement stmt = con.createStatement();
+			stmt.executeUpdate("DELETE FROM regisseur_belegung WHERE DVD_ID = " + dvd.getId());
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
 }

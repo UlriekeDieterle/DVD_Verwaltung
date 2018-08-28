@@ -132,6 +132,18 @@ public interface DVDVerwaltungAdministrationAsync {
 
 	void init(AsyncCallback<Void> callback);
 
+	void updateGenreBelegung(Vector<Genre> genre, DVD dvd, AsyncCallback<Vector<Genre>> callback);
+
+	void updateRegisseurBelegung(Vector<Regisseur> regisseur, DVD dvd, AsyncCallback<Vector<Regisseur>> callback);
+
+	void updateSchauspielerBelegung(Vector<Schauspieler> schauspieler, DVD dvd,
+			AsyncCallback<Vector<Schauspieler>> callback);
+
+	void updateSprachenBelegung(Vector<Sprache> sprache, Vector<Sprache> untertitel, DVD dvd,
+			AsyncCallback<Vector<Sprache>> callback);
+
+	void updateStudioBelegung(Vector<Studio> studio, DVD dvd, AsyncCallback<Vector<Studio>> callback);
+
 	
 
 	

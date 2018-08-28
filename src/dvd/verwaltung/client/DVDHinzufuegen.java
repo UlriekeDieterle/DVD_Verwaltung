@@ -3,6 +3,7 @@ package dvd.verwaltung.client;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -39,6 +40,8 @@ public class DVDHinzufuegen extends BasicFrame{
     RadioButton artDVD8 = new RadioButton("ArtderDVD", "HD DVD");
     RadioButton artDVD9 = new RadioButton("ArtderDVD", "Steelbook");
     RadioButton artDVD10 = new RadioButton("ArtderDVD", "FR Import");
+    RadioButton artDVD11 = new RadioButton("ArtderDVD", "Collector´s Edition");
+    RadioButton artDVD12 = new RadioButton("ArtderDVD", "Fan Edition");
     
     
     TextArea beschreibung = new TextArea();
@@ -58,9 +61,18 @@ public class DVDHinzufuegen extends BasicFrame{
 		vpanel.setStyleName("panel");
 		confirmBtn.setStyleName("button");
 		confirmBtn.addClickHandler(new ConfirmClickHandler());
-				
+		
+		titel.setMaxLength(100);
+		stichwort.setMaxLength(50);
+		anzahlDisc.setMaxLength(2);
+		prodjahr.setMaxLength(4);
+		erschjahr.setMaxLength(4);
+		laenge.setMaxLength(4);
+		beschreibung.setSize("250px", "100px");
+		
 	    fsk0.setChecked(true);
 	    serieFilm.setChecked(true);
+	    artDVD3.setChecked(true);
 	    
 	    
 	    flextable.setText(0, 0, "Titel der DVD");
@@ -95,6 +107,8 @@ public class DVDHinzufuegen extends BasicFrame{
 	    flextable.setWidget(8, 8, artDVD8);
 	    flextable.setWidget(8, 9, artDVD9);
 	    flextable.setWidget(8, 10, artDVD10);
+	    flextable.setWidget(8, 11, artDVD11);
+	    flextable.setWidget(8, 12, artDVD12);
 	    flextable.setText(9, 0, "Beschreibung");
 	    flextable.setWidget(9, 1, beschreibung);
 
@@ -134,6 +148,39 @@ public class DVDHinzufuegen extends BasicFrame{
 		int anzahlDisc = Integer.parseInt(this.anzahlDisc.getText());
 		String artDvd = null;
 		String filmSerie = null;	
+		Boolean prodJahrBoolean = false;
+		Boolean erschJahrBoolean = false;
+		Boolean filmLaengeBoolean = false;
+		Boolean anzahlDiscBoolean = false;
+		Boolean beschreibungBoolean = false;
+		
+		if (prodJahr >= 1900 && prodJahr <= 2500) {
+			prodJahrBoolean = true;
+		} else {
+			Window.alert("Bitte gib ein gültiges Produktionsjahr ein, zwischen 1900 und 2500");
+			run();
+		}
+		
+		if(erschJahr >= 1900 && erschJahr <= 2500) {
+			erschJahrBoolean = true;
+		} else {
+			Window.alert("Bitte gib ein gültiges Erscheinungsjahr ein, zwischen 1900 und 2500");
+			run();
+		}
+		
+		if(filmLaenge >= 50 && filmLaenge <= 2000) {
+			filmLaengeBoolean = true;
+		} else {
+			Window.alert("Bitte gib eine gültige Länge für den Film an, zwischen 50 und 2000 Minuten");
+			run();
+		}
+		
+		if(anzahlDisc >= 0 && anzahlDisc <= 15) {
+			anzahlDiscBoolean = true;
+		} else {
+			Window.alert("Bitte gib eine gültige Anzahl von Disc an, mindestens 1 bis maximal 15 Stück");
+			run();
+		}
 		
 		if(fsk0.getValue() == true) {
 			fsk = 0;	
@@ -173,9 +220,23 @@ public class DVDHinzufuegen extends BasicFrame{
 			artDvd = "Steelbook";
 		} else if (artDVD10.getValue() == true) {
 			artDvd = "FR Import";
+		} else if (artDVD11.getValue() == true) {
+			artDvd = "Collector´s Edition";
+		} else if (artDVD12.getValue() == true) {
+			artDvd = "Fan Edition";
 		}
 		
-		if (!titel.isEmpty()) {
+		if(beschreibung.length() < 2000) {
+			beschreibungBoolean = true;
+		} else {
+			Window.alert("Die eingegebene Beschreibung ist zu lang");
+			run();
+		}
+		
+		
+		
+		if (!titel.isEmpty() && prodJahrBoolean == true && erschJahrBoolean == true &&
+				filmLaengeBoolean == true && anzahlDiscBoolean == true && beschreibungBoolean == true) {
 			dvdVerwaltung.createDVD(titel,
 					fsk, 
 					prodJahr,
@@ -187,6 +248,9 @@ public class DVDHinzufuegen extends BasicFrame{
 					artDvd,
 					filmSerie,
 					new CreateDVDCallback());
+		} else {
+			Window.alert("Bitte gib einen gültigen Titel ein");
+			run();
 		}
 		
 	}
